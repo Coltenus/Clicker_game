@@ -15,7 +15,7 @@ namespace g9 {
 
     public:
         MainBuilding(Vector2, Vector2, Color, unsigned long long);
-        ~MainBuilding() override {}
+        ~MainBuilding() override = default;
     };
 
 } // g9

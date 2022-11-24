@@ -7,7 +7,7 @@
 #include "src/Button.h"
 
 int main() {
-    setbuf(stdout, 0);
+    setbuf(stdout, nullptr);
     InitWindow(WIDTH, HEIGHT, "Game 9");
     auto* money = new g9::Money({20, 20}, 40);
     auto* mb = new g9::MainBuilding({WIDTH / 2 - 50, HEIGHT / 2 - 50}, {100, 100}, DARKBROWN, 1);

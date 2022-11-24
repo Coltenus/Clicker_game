@@ -19,12 +19,12 @@ namespace g9 {
 
     public:
         Building(Vector2 p, Vector2 s, Color c, unsigned long long iv) : pos(p), size(s), col(c), incVal(iv) {}
-        virtual ~Building() {}
-        Vector2 GetPosition() {return pos;}
-        Vector2 GetSize() {return size;}
-        Color GetColor() {return col;}
+        virtual ~Building() = default;
+        [[nodiscard]] Vector2 GetPosition() {return pos;}
+        [[nodiscard]] Vector2 GetSize() {return size;}
+        [[nodiscard]] Color GetColor() {return col;}
         void SetColor(Color c) {col = c;}
-        unsigned long long GetIncomeValue() {return incVal;}
+        [[nodiscard]] unsigned long long GetIncomeValue() const {return incVal;}
         void IncreseIncValByVal(unsigned long long val) {incVal += val;}
         void check(Money& m) {
             static Vector2 mouse;

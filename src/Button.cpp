@@ -6,10 +6,10 @@
 
 namespace g9 {
     Button::Button(Vector2 p, Vector2 s, const char * t, int h, Color c) : pos(p),
-    size(s), text(t), height(h), col(c), priceVal(0) {}
+    size(s), text(t), height(h), col(c), priceVal(0), action1(nullptr), action2(nullptr) {}
 
     Button::Button(Vector2 p, Vector2 s, const char * t, int h, Color c, unsigned long long int pV) : pos(p),
-    size(s), text(t), height(h), col(c), priceVal(pV) {}
+    size(s), text(t), height(h), col(c), priceVal(pV), action1(nullptr), action2(nullptr) {}
 
     Button::~Button() {
         action1 = nullptr;
