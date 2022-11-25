@@ -19,17 +19,18 @@ namespace g9 {
 
     public:
         Building(Vector2 p, Vector2 s, Color c, unsigned long long iv) : pos(p), size(s), col(c), incVal(iv) {}
-        virtual ~Building() = default;
+        virtual ~Building() noexcept = default;
         [[nodiscard]] Vector2 GetPosition() {return pos;}
         [[nodiscard]] Vector2 GetSize() {return size;}
         [[nodiscard]] Color GetColor() {return col;}
         void SetColor(Color c) {col = c;}
         [[nodiscard]] unsigned long long GetIncomeValue() const {return incVal;}
-        void IncreseIncValByVal(unsigned long long val) {incVal += val;}
+        void IncreaseIncValByVal(unsigned long long val) {incVal += val;}
         void check(Money& m) {
             static Vector2 mouse;
             mouse = GetMousePosition();
-            if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)
+            if(incVal > 0
+            && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)
             && mouse.x >= pos.x && mouse.x <= pos.x + size.x
             && mouse.y >= pos.y && mouse.y <= pos.y + size.y)
             {
@@ -37,8 +38,10 @@ namespace g9 {
             }
         }
         virtual void OnClick(Money&) = 0;
+        virtual void WhileExist(Money&) = 0;
         void Show() {
-            DrawRectangleV(pos, size, col);
+            if(incVal > 0)
+                DrawRectangleV(pos, size, col);
         }
     };
 
