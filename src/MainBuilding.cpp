@@ -10,4 +10,10 @@ namespace g9 {
     }
 
     MainBuilding::MainBuilding(Vector2 p, Vector2 s, Color c, unsigned long long iv) : Building(p, s, c, iv) {}
+
+    void MainBuilding::WhileExist(Money &) {
+
+    }
+
+    MainBuilding::~MainBuilding() = default;
 } // g9

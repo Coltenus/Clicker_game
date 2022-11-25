@@ -27,12 +27,22 @@ namespace g9 {
 
     void Button::Click(Money &m, Building &b) {
         static Vector2 mouse;
+        static bool wasZero;
+        static std::string bufStr = "";
+        wasZero = false;
+        if(b.GetIncomeValue() == 0)
+            wasZero = true;
         mouse = GetMousePosition();
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)
            && mouse.x >= pos.x && mouse.x <= pos.x + size.x
            && mouse.y >= pos.y && mouse.y <= pos.y + size.y)
         {
             action1(m, b, priceVal);
+        }
+        if(wasZero && b.GetIncomeValue() != 0)
+        {
+            bufStr = text;
+            text = bufStr.replace(bufStr.begin(), bufStr.begin()+3, "Upgrade").c_str();
         }
     }
 
