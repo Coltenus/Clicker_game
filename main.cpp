@@ -10,13 +10,18 @@
 
 int main() {
     setbuf(stdout, nullptr);
-    InitWindow(WIDTH, HEIGHT, "Game 9");
+    bool isShouldExit = false;
+    bool newIteration = false;
+    InitWindow(WIDTH, HEIGHT, "Moving buildings");
     SetTargetFPS(60);
+    Image icon = LoadImage("res/icon.png");
+    SetWindowIcon(icon);
+    UnloadImage(icon);
     Camera2D cam = {{WIDTH, HEIGHT}, {WIDTH, HEIGHT}, 0, 1.f};
     float buf;
     auto* money = new g9::Money({20, 20}, 40);
     std::vector<g9::Building*> buildings = {
-            new g9::MainBuilding({WIDTH / 2 - 50, HEIGHT / 2 - 50}, {100, 100}, DARKBROWN, 1, &cam),
+            new g9::MainBuilding({750, HEIGHT / 2 - 200}, {100, 100}, DARKBROWN, 1, &cam),
             new g9::SideBuilding({WIDTH / 2 - 50, HEIGHT / 2 + 150}, {100, 100}, VIOLET, 0, 5000, &cam)
     };
     std::vector<g9::Button> buttons = {
@@ -56,39 +61,66 @@ int main() {
         if(iter + 1 != vec.end())
             iter += 1;
     });
-    std::vector<std::thread*> existingBuildings;
-    std::thread* sbExisting = new  std::thread([&buildings, &money](){
+    std::vector<std::thread*> existingThreads;
+    std::thread* existingThread = new std::thread([&buildings, &money](){
         buildings[1]->WhileExist(*money);
     });
-    sbExisting->detach();
-    existingBuildings.push_back(sbExisting);
-    sbExisting = nullptr;
-    while (!WindowShouldClose())
-    {
-        if((buf = GetMouseWheelMove()) != 0)
+    existingThread->detach();
+    existingThreads.push_back(existingThread);
+    existingThread = new std::thread([&buildings, &isShouldExit](){
+        while (!isShouldExit)
         {
-            if(cam.target.y >= HEIGHT)
-                cam.target.y -= buf*100;
+            buildings[0]->Move(6, 2.5);
+            buildings[1]->Move(6, 2);
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
-        if(cam.target.y < HEIGHT)
-            cam.target.y = HEIGHT;
+    });
+    existingThread->detach();
+    existingThreads.push_back(existingThread);
+    existingThread = new std::thread([&](){
+        while (!isShouldExit)
+        {
+            if(newIteration)
+            {
+                if((buf = GetMouseWheelMove()) != 0)
+                {
+                    if(cam.target.y >= HEIGHT)
+                        cam.target.y -= buf*100;
+                }
+                if(cam.target.y < HEIGHT)
+                    cam.target.y = HEIGHT;
+                butIter->Click(*money, *buildings[std::distance(buttons.begin(), butIter)]);
+                butN->Click(buttons, butIter);
+                butP->Click(buttons, butIter);
+                for(auto& el: buildings)
+                {
+                    el->check(*money);
+                }
+                newIteration = false;
+            }
+        }
+    });
+    existingThread->detach();
+    existingThreads.push_back(existingThread);
+    existingThread = nullptr;
+    while (!isShouldExit)
+    {
+        newIteration = true;
         BeginDrawing();
-        money->Show();
-        butIter->Show();
-        butIter->Click(*money, *buildings[std::distance(buttons.begin(), butIter)]);
-        butN->Show();
-        butN->Click(buttons, butIter);
-        butP->Show();
-        butP->Click(buttons, butIter);
         ClearBackground(GREEN);
         BeginMode2D(cam);
         for(auto& el: buildings)
         {
-            el->check(*money);
             el->Show();
         }
         EndMode2D();
+        money->Show();
+        butIter->Show();
+        butN->Show();
+        butP->Show();
         EndDrawing();
+        if(WindowShouldClose())
+            isShouldExit = true;
     }
     CloseWindow();
     if(money != nullptr)
@@ -96,11 +128,11 @@ int main() {
         delete money;
         money = nullptr;
     }
-//    for(auto& el: buildings)
-//        delete el;
-//    buildings.clear();
-    for(auto& el: existingBuildings)
+    for(auto& el: buildings)
         delete el;
-    existingBuildings.clear();
+    buildings.clear();
+    for(auto& el: existingThreads)
+        delete el;
+    existingThreads.clear();
     return 0;
 }

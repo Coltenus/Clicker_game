@@ -6,6 +6,7 @@
 #define GAME9_BUILDING_H
 
 #include <raylib.h>
+#include <math.h>
 #include "Money.h"
 #include "common.h"
 
@@ -18,6 +19,7 @@ namespace g9 {
         Color col;
         unsigned long long incVal;
         Camera2D* cam;
+        float angle = 0;
 
     public:
         Building(Vector2 p, Vector2 s, Color c, unsigned long long iv, Camera2D* cm)
@@ -45,6 +47,14 @@ namespace g9 {
         void Show() {
             if(incVal > 0)
                 DrawRectangleV(pos, size, col);
+        }
+        void Move(float speed, float moveOffset) {
+            if(incVal > 0)
+            {
+                pos.x += speed * cos((1/moveOffset) * angle);
+                pos.y += speed * sin(moveOffset * angle);
+                angle += (0.003 + (moveOffset - 2) * 0.0013) * speed;
+            }
         }
     };
 
