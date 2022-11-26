@@ -7,6 +7,7 @@
 
 #include <raylib.h>
 #include "Money.h"
+#include "common.h"
 
 namespace g9 {
 
@@ -16,9 +17,11 @@ namespace g9 {
         Vector2 size;
         Color col;
         unsigned long long incVal;
+        Camera2D* cam;
 
     public:
-        Building(Vector2 p, Vector2 s, Color c, unsigned long long iv) : pos(p), size(s), col(c), incVal(iv) {}
+        Building(Vector2 p, Vector2 s, Color c, unsigned long long iv, Camera2D* cm)
+        : pos(p), size(s), col(c), incVal(iv), cam(cm) {}
         virtual ~Building() noexcept = default;
         [[nodiscard]] Vector2 GetPosition() {return pos;}
         [[nodiscard]] Vector2 GetSize() {return size;}
@@ -31,8 +34,8 @@ namespace g9 {
             mouse = GetMousePosition();
             if(incVal > 0
             && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)
-            && mouse.x >= pos.x && mouse.x <= pos.x + size.x
-            && mouse.y >= pos.y && mouse.y <= pos.y + size.y)
+            && mouse.x >= pos.x - cam->target.x + WIDTH && mouse.x <= pos.x + size.x - cam->target.x + WIDTH
+            && mouse.y >= pos.y - cam->target.y + HEIGHT && mouse.y <= pos.y + size.y - cam->target.y + HEIGHT)
             {
                 OnClick(m);
             }

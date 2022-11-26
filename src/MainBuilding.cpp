@@ -9,7 +9,8 @@ namespace g9 {
         m += GetIncomeValue();
     }
 
-    MainBuilding::MainBuilding(Vector2 p, Vector2 s, Color c, unsigned long long iv) : Building(p, s, c, iv) {}
+    MainBuilding::MainBuilding(Vector2 p, Vector2 s, Color c, unsigned long long iv, Camera2D* cm)
+    : Building(p, s, c, iv, cm) {}
 
     void MainBuilding::WhileExist(Money &) {
 

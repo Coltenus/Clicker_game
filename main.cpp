@@ -2,8 +2,7 @@
 #include <raylib.h>
 #include <vector>
 #include <thread>
-#define WIDTH 1600
-#define HEIGHT 900
+#include "src/common.h"
 #include "src/Money.h"
 #include "src/MainBuilding.h"
 #include "src/SideBuilding.h"
@@ -12,10 +11,13 @@
 int main() {
     setbuf(stdout, nullptr);
     InitWindow(WIDTH, HEIGHT, "Game 9");
+    SetTargetFPS(60);
+    Camera2D cam = {{WIDTH, HEIGHT}, {WIDTH, HEIGHT}, 0, 1.f};
+    float buf;
     auto* money = new g9::Money({20, 20}, 40);
     std::vector<g9::Building*> buildings = {
-            new g9::MainBuilding({WIDTH / 2 - 50, HEIGHT / 2 - 50}, {100, 100}, DARKBROWN, 1),
-            new g9::SideBuilding({WIDTH / 2 - 50, HEIGHT / 2 + 150}, {100, 100}, VIOLET, 0, 5000)
+            new g9::MainBuilding({WIDTH / 2 - 50, HEIGHT / 2 - 50}, {100, 100}, DARKBROWN, 1, &cam),
+            new g9::SideBuilding({WIDTH / 2 - 50, HEIGHT / 2 + 150}, {100, 100}, VIOLET, 0, 5000, &cam)
     };
     std::vector<g9::Button> buttons = {
             g9::Button({1275, 50}, {300, 50}, "Upgrade Main Building", 20, RED, 25),
@@ -63,29 +65,29 @@ int main() {
     sbExisting = nullptr;
     while (!WindowShouldClose())
     {
+        if((buf = GetMouseWheelMove()) != 0)
+        {
+            if(cam.target.y >= HEIGHT)
+                cam.target.y -= buf*100;
+        }
+        if(cam.target.y < HEIGHT)
+            cam.target.y = HEIGHT;
         BeginDrawing();
+        money->Show();
+        butIter->Show();
+        butIter->Click(*money, *buildings[std::distance(buttons.begin(), butIter)]);
+        butN->Show();
+        butN->Click(buttons, butIter);
+        butP->Show();
+        butP->Click(buttons, butIter);
+        ClearBackground(GREEN);
+        BeginMode2D(cam);
         for(auto& el: buildings)
         {
             el->check(*money);
             el->Show();
         }
-        if(money != nullptr)
-        {
-            money->Show();
-        }
-        butIter->Show();
-        butIter->Click(*money, *buildings[std::distance(buttons.begin(), butIter)]);
-        if(butN != nullptr)
-        {
-            butN->Show();
-            butN->Click(buttons, butIter);
-        }
-        if(butP != nullptr)
-        {
-            butP->Show();
-            butP->Click(buttons, butIter);
-        }
-        ClearBackground(GREEN);
+        EndMode2D();
         EndDrawing();
     }
     CloseWindow();

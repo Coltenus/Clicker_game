@@ -15,7 +15,7 @@ namespace g9 {
         void WhileExist(Money&) override;
 
     public:
-        MainBuilding(Vector2, Vector2, Color, unsigned long long);
+        MainBuilding(Vector2, Vector2, Color, unsigned long long, Camera2D*);
         ~MainBuilding() override;
     };
 

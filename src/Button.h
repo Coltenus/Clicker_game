@@ -9,6 +9,7 @@
 #include <vector>
 #include "Money.h"
 #include "Building.h"
+#include "common.h"
 
 namespace g9 {
 
@@ -20,10 +21,13 @@ namespace g9 {
         int height;
         Color col;
         unsigned long long priceVal;
+        Camera2D* cam;
         void (*action1)(Money&, Building&, unsigned long long&);
         void (*action2)(const std::vector<Button>&, __gnu_cxx::__normal_iterator<Button*, std::vector<Button>>&);
 
     public:
+        Button(Vector2, Vector2, const char*, int, Color, Camera2D*);
+        Button(Vector2, Vector2, const char*, int, Color, Camera2D*, unsigned long long);
         Button(Vector2, Vector2, const char*, int, Color);
         Button(Vector2, Vector2, const char*, int, Color, unsigned long long);
         ~Button();

@@ -11,12 +11,11 @@ namespace g9 {
 
     class SideBuilding : public Building {
     private:
-        bool isExist;
         unsigned int interval;
         void OnClick(Money&) override;
 
     public:
-        SideBuilding(Vector2, Vector2, Color, unsigned long long, unsigned int);
+        SideBuilding(Vector2, Vector2, Color, unsigned long long, unsigned int, Camera2D*);
         ~SideBuilding() override;
         void WhileExist(Money&) override;
     };
