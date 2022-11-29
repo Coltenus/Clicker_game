@@ -30,7 +30,9 @@ namespace g9 {
     float sp, float mo) : Building(p, s, c, iv, cm, sp, mo), interval(_interval) {buildingsCount++;}
 
     void SideBuilding::Show() {
-        if(GetIncomeValue() > 0)
+        if(GetIncomeValue() > 0
+           && GetPosition().y + GetSize().y >= GetCamera()->target.y - HEIGHT
+           && GetPosition().y <= GetCamera()->target.y)
         {
             DrawRectangleV(GetPosition(), GetSize(), GetColor());
             DrawText(TextFormat("%d/%4.2f second(s)", GetIncomeValue(), (float)interval/1000), GetPosition().x + GetSize().x/16,

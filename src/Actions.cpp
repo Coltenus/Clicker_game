@@ -37,4 +37,14 @@ namespace g9 {
         }
     }
 
+    void buttonL(const std::vector<Button> &vec, __gnu_cxx::__normal_iterator<g9::Button *, std::vector<g9::Button>> &iter) {
+        if(iter != vec.begin())
+            iter -= 1;
+    }
+
+    void buttonR(const std::vector<Button> &vec, __gnu_cxx::__normal_iterator<g9::Button *, std::vector<g9::Button>> &iter) {
+        if(iter + 1 != vec.end())
+            iter += 1;
+    }
+
 }

@@ -17,7 +17,9 @@ namespace g9 {
     }
 
     void MainBuilding::Show() {
-        if(GetIncomeValue() > 0)
+        if(GetIncomeValue() > 0
+           && GetPosition().y + GetSize().y >= GetCamera()->target.y - HEIGHT
+           && GetPosition().y <= GetCamera()->target.y)
         {
             DrawRectangleV(GetPosition(), GetSize(), GetColor());
             DrawText(TextFormat("%d/click", GetIncomeValue()), GetPosition().x + GetSize().x/16,

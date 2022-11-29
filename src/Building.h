@@ -35,6 +35,7 @@ namespace g9 {
         [[nodiscard]] unsigned long long GetIncomeValue() const {return incVal;}
         void IncreaseIncValByVal(unsigned long long val) {incVal += val;}
         void IncreaseIncVal(float val) {if(val >= 1) incVal *= val;}
+        Camera2D* GetCamera() {return cam;}
         void check(Money& m) {
             static Vector2 mouse;
             mouse = GetMousePosition();
@@ -49,7 +50,9 @@ namespace g9 {
         virtual void OnClick(Money&) = 0;
         virtual void WhileExist(Money&) = 0;
         virtual void Show() {
-            if(incVal > 0)
+            if(incVal > 0
+               && pos.y + size.y >= cam->target.y - HEIGHT
+               && pos.y <= cam->target.y)
                 DrawRectangleV(pos, size, col);
         }
         void Move() {
