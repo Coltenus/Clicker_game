@@ -19,11 +19,14 @@ namespace g9 {
         Color col;
         unsigned long long incVal;
         Camera2D* cam;
+        float speed;
+        float moveOffset;
         float angle = 0;
 
     public:
-        Building(Vector2 p, Vector2 s, Color c, unsigned long long iv, Camera2D* cm)
-        : pos(p), size(s), col(c), incVal(iv), cam(cm) {}
+        static int buildingsCount;
+        Building(Vector2 p, Vector2 s, Color c, unsigned long long iv, Camera2D* cm, float sp, float mo)
+        : pos(p), size(s), col(c), incVal(iv), cam(cm), speed(sp), moveOffset(mo) {}
         virtual ~Building() noexcept = default;
         [[nodiscard]] Vector2 GetPosition() {return pos;}
         [[nodiscard]] Vector2 GetSize() {return size;}
@@ -31,6 +34,7 @@ namespace g9 {
         void SetColor(Color c) {col = c;}
         [[nodiscard]] unsigned long long GetIncomeValue() const {return incVal;}
         void IncreaseIncValByVal(unsigned long long val) {incVal += val;}
+        void IncreaseIncVal(float val) {if(val >= 1) incVal *= val;}
         void check(Money& m) {
             static Vector2 mouse;
             mouse = GetMousePosition();
@@ -44,16 +48,16 @@ namespace g9 {
         }
         virtual void OnClick(Money&) = 0;
         virtual void WhileExist(Money&) = 0;
-        void Show() {
+        virtual void Show() {
             if(incVal > 0)
                 DrawRectangleV(pos, size, col);
         }
-        void Move(float speed, float moveOffset) {
+        void Move() {
             if(incVal > 0)
             {
                 pos.x += speed * cos((1/moveOffset) * angle);
                 pos.y += speed * sin(moveOffset * angle);
-                angle += (0.003 + (moveOffset - 2) * 0.0013) * speed;
+                angle += (0.0004 + moveOffset * 0.0013) * speed;
             }
         }
     };

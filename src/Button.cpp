@@ -6,16 +6,16 @@
 
 namespace g9 {
     Button::Button(Vector2 p, Vector2 s, const char * t, int h, Color c, Camera2D* cm) : pos(p),
-    size(s), text(t), height(h), col(c), priceVal(0), cam(cm), action1(nullptr), action2(nullptr) {}
+    size(s), text(t), height(h), col(c), priceVal(0), startIV(0), cam(cm), action1(nullptr), action2(nullptr) {}
 
-    Button::Button(Vector2 p, Vector2 s, const char * t, int h, Color c, Camera2D* cm, unsigned long long int pV) : pos(p),
-    size(s), text(t), height(h), col(c), priceVal(pV), cam(cm), action1(nullptr), action2(nullptr) {}
+    Button::Button(Vector2 p, Vector2 s, const char * t, int h, Color c, Camera2D* cm, unsigned long long int pV, unsigned long long int stIV)
+    : pos(p), size(s), text(t), height(h), col(c), priceVal(pV), startIV(stIV), cam(cm), action1(nullptr), action2(nullptr) {}
 
     Button::Button(Vector2 p, Vector2 s, const char * t, int h, Color c) : pos(p),
-    size(s), text(t), height(h), col(c), priceVal(0), cam(nullptr), action1(nullptr), action2(nullptr) {}
+    size(s), text(t), height(h), col(c), priceVal(0), startIV(0), cam(nullptr), action1(nullptr), action2(nullptr) {}
 
-    Button::Button(Vector2 p, Vector2 s, const char * t, int h, Color c, unsigned long long int pV) : pos(p),
-    size(s), text(t), height(h), col(c), priceVal(pV), cam(nullptr), action1(nullptr), action2(nullptr) {}
+    Button::Button(Vector2 p, Vector2 s, const char * t, int h, Color c, unsigned long long int pV, unsigned long long int stIV) : pos(p),
+    size(s), text(t), height(h), col(c), priceVal(pV), startIV(stIV), cam(nullptr), action1(nullptr), action2(nullptr) {}
 
     Button::~Button() {
         action1 = nullptr;
@@ -48,7 +48,7 @@ namespace g9 {
            && mouse.x >= pos.x - offset.x && mouse.x <= pos.x + size.x - offset.x
            && mouse.y >= pos.y - offset.y && mouse.y <= pos.y + size.y - offset.y)
         {
-            action1(m, b, priceVal);
+            action1(m, b, priceVal, startIV);
         }
         if(wasZero && b.GetIncomeValue() != 0)
         {
@@ -74,7 +74,7 @@ namespace g9 {
         }
     }
 
-    void Button::SetAction(void (*act)(Money &, Building &, unsigned long long &)) {
+    void Button::SetAction(void (*act)(Money &, Building &, unsigned long long &, unsigned long long &)) {
         action1 = act;
     }
 

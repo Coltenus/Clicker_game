@@ -15,9 +15,10 @@ namespace g9 {
         void OnClick(Money&) override;
 
     public:
-        SideBuilding(Vector2, Vector2, Color, unsigned long long, unsigned int, Camera2D*);
+        SideBuilding(Vector2, Vector2, Color, unsigned long long, unsigned int, Camera2D*, float, float);
         ~SideBuilding() override;
         void WhileExist(Money&) override;
+        void Show() override;
     };
 
 } // g9

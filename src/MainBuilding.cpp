@@ -9,12 +9,21 @@ namespace g9 {
         m += GetIncomeValue();
     }
 
-    MainBuilding::MainBuilding(Vector2 p, Vector2 s, Color c, unsigned long long iv, Camera2D* cm)
-    : Building(p, s, c, iv, cm) {}
+    MainBuilding::MainBuilding(Vector2 p, Vector2 s, Color c, unsigned long long iv, Camera2D* cm, float sp, float mo)
+    : Building(p, s, c, iv, cm, sp, mo) {buildingsCount++;}
 
     void MainBuilding::WhileExist(Money &) {
 
     }
 
-    MainBuilding::~MainBuilding() = default;
+    void MainBuilding::Show() {
+        if(GetIncomeValue() > 0)
+        {
+            DrawRectangleV(GetPosition(), GetSize(), GetColor());
+            DrawText(TextFormat("%d/click", GetIncomeValue()), GetPosition().x + GetSize().x/16,
+                     GetPosition().y + GetSize().y*44/100, GetSize().y/9, WHITE);
+        }
+    }
+
+    MainBuilding::~MainBuilding() {buildingsCount--;};
 } // g9

@@ -7,6 +7,9 @@
 #include "src/MainBuilding.h"
 #include "src/SideBuilding.h"
 #include "src/Button.h"
+#include "src/Actions.h"
+
+int g9::Building::buildingsCount = 0;
 
 int main() {
     setbuf(stdout, nullptr);
@@ -21,33 +24,15 @@ int main() {
     float buf;
     auto* money = new g9::Money({20, 20}, 40);
     std::vector<g9::Building*> buildings = {
-            new g9::MainBuilding({750, HEIGHT / 2 - 200}, {100, 100}, DARKBROWN, 1, &cam),
-            new g9::SideBuilding({WIDTH / 2 - 50, HEIGHT / 2 + 150}, {100, 100}, VIOLET, 0, 5000, &cam)
+            new g9::MainBuilding({WIDTH / 2 - 50, HEIGHT / 2 - 200}, {100, 100}, DARKBROWN, 1, &cam, 6, 2.5),
+            new g9::SideBuilding({WIDTH / 2 - 50, HEIGHT / 2 + 300}, {120, 100}, VIOLET, 0, 5000, &cam, 6, 2)
     };
     std::vector<g9::Button> buttons = {
-            g9::Button({1275, 50}, {300, 50}, "Upgrade Main Building", 20, RED, 25),
-            g9::Button({1275, 50}, {300, 50}, "Buy Side Building", 20, RED, 40)
+            g9::Button({1275, 50}, {300, 50}, "Upgrade Main Building", 20, RED, 25, 0),
+            g9::Button({1275, 50}, {300, 50}, "Buy Side Building", 20, RED, 40, 2)
     };
-    buttons[0].SetAction([](g9::Money& m, g9::Building& b, unsigned long long& neededVal){
-        static unsigned long long curVal;
-        curVal = m.GetValue();
-        if(neededVal != 0 && curVal >= neededVal)
-        {
-            m -= neededVal;
-            neededVal *= 1.2;
-            b.IncreaseIncValByVal(1);
-        }
-    });
-    buttons[1].SetAction([](g9::Money& m, g9::Building& b, unsigned long long& neededVal){
-        static unsigned long long curVal;
-        curVal = m.GetValue();
-        if(neededVal != 0 && curVal >= neededVal)
-        {
-            m -= neededVal;
-            neededVal *= 1.2;
-            b.IncreaseIncValByVal(2);
-        }
-    });
+    buttons[0].SetAction(g9::actionMB);
+    buttons[1].SetAction(g9::actionSB);
     auto butIter = buttons.begin();
     auto* butP = new g9::Button({1325, 120}, {50, 50}, "<=", 20, BLUE);
     butP->SetAction([](const std::vector<g9::Button>& vec,
@@ -62,7 +47,7 @@ int main() {
             iter += 1;
     });
     std::vector<std::thread*> existingThreads;
-    std::thread* existingThread = new std::thread([&buildings, &money](){
+    auto* existingThread = new std::thread([&buildings, &money](){
         buildings[1]->WhileExist(*money);
     });
     existingThread->detach();
@@ -70,8 +55,10 @@ int main() {
     existingThread = new std::thread([&buildings, &isShouldExit](){
         while (!isShouldExit)
         {
-            buildings[0]->Move(6, 2.5);
-            buildings[1]->Move(6, 2);
+            for(auto& el: buildings)
+            {
+                el->Move();
+            }
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
     });
@@ -105,6 +92,41 @@ int main() {
     existingThread = nullptr;
     while (!isShouldExit)
     {
+        if(buildings[buildings.size()-1]->GetIncomeValue() != 0)
+        {
+            if(g9::Building::buildingsCount%5 == 0) {
+                buildings.push_back(
+                        new g9::MainBuilding({WIDTH / 2 - 50, HEIGHT / 2 - 100 + 450.f * g9::Building::buildingsCount},
+                                             {100, 100}, DARKBROWN, 0, &cam, 6, 2.5)
+                );
+                buttons.push_back(
+                        g9::Button({1275, 50}, {300, 50}, "Buy Main Building", 20, RED,
+                                   15 * pow(4, g9::Building::buildingsCount),
+                                   pow(4, g9::Building::buildingsCount)/2)
+                );
+                buttons[buttons.size()-1].SetAction(g9::actionMB);
+            }
+            else {
+                buildings.push_back(
+                        new g9::SideBuilding({WIDTH / 2 - 50, HEIGHT / 2 - 100 + 450.f * g9::Building::buildingsCount},
+                                             {120, 100}, VIOLET, 0,
+                                             (unsigned int)(10000.f / (g9::Building::buildingsCount+1)), &cam, 6, 2)
+                );
+                buttons.push_back(
+                        g9::Button({1275, 50}, {300, 50}, "Buy Side Building", 20, RED,
+                                   20 * pow(4, g9::Building::buildingsCount),
+                                   pow(5, g9::Building::buildingsCount))
+                        );
+                buttons[buttons.size()-1].SetAction(g9::actionSB);
+                existingThread = new std::thread([&buildings, &money](){
+                    buildings[buildings.size()-1]->WhileExist(*money);
+                });
+                existingThread->detach();
+                existingThreads.push_back(existingThread);
+                existingThread = nullptr;
+            }
+            butIter = buttons.begin();
+        }
         newIteration = true;
         BeginDrawing();
         ClearBackground(GREEN);
@@ -128,9 +150,9 @@ int main() {
         delete money;
         money = nullptr;
     }
-    for(auto& el: buildings)
-        delete el;
-    buildings.clear();
+//    for(auto& el: buildings)
+//        delete el;
+//    buildings.clear();
     for(auto& el: existingThreads)
         delete el;
     existingThreads.clear();

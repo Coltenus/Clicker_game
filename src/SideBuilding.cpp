@@ -24,8 +24,17 @@ namespace g9 {
         }
     }
 
-    SideBuilding::~SideBuilding() = default;
+    SideBuilding::~SideBuilding() {buildingsCount--;};
 
-    SideBuilding::SideBuilding(Vector2 p, Vector2 s, Color c, unsigned long long iv, unsigned int _interval, Camera2D* cm)
-    : Building(p, s, c, iv, cm), interval(_interval) {}
+    SideBuilding::SideBuilding(Vector2 p, Vector2 s, Color c, unsigned long long iv, unsigned int _interval, Camera2D* cm,
+    float sp, float mo) : Building(p, s, c, iv, cm, sp, mo), interval(_interval) {buildingsCount++;}
+
+    void SideBuilding::Show() {
+        if(GetIncomeValue() > 0)
+        {
+            DrawRectangleV(GetPosition(), GetSize(), GetColor());
+            DrawText(TextFormat("%d/%4.2f second(s)", GetIncomeValue(), (float)interval/1000), GetPosition().x + GetSize().x/16,
+                     GetPosition().y + GetSize().y*44/100, GetSize().y/9, WHITE);
+        }
+    }
 } // g9

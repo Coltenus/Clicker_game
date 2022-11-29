@@ -17,7 +17,7 @@ namespace g9 {
         int height;
 
     public:
-        Money(Vector2 p, int h) : value(0), pos(p), height(h) {}
+        Money(Vector2 p, int h) : value(2000000), pos(p), height(h) {}
         void operator+=(unsigned long long v) {value += v;}
         void operator-=(unsigned long long v) {value -= v;}
         [[nodiscard]] unsigned long long GetValue() const {return value;}
