@@ -1,12 +1,12 @@
 //
-// Created by colte on 23.11.2022.
+// Created by Coltenus on 23.11.2022.
 //
 
 #ifndef GAME9_BUILDING_H
 #define GAME9_BUILDING_H
 
 #include <raylib.h>
-#include <math.h>
+#include <cmath>
 #include "Money.h"
 #include "common.h"
 

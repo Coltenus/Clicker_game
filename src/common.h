@@ -1,5 +1,5 @@
 //
-// Created by colte on 26.11.2022.
+// Created by Coltenus on 26.11.2022.
 //
 
 #ifndef GAME9_COMMON_H

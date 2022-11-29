@@ -1,5 +1,5 @@
 //
-// Created by colte on 23.11.2022.
+// Created by Coltenus on 23.11.2022.
 //
 
 #include "Button.h"
@@ -34,7 +34,7 @@ namespace g9 {
     void Button::Click(Money &m, Building &b) {
         static Vector2 mouse;
         static bool wasZero;
-        static std::string bufStr = "";
+        static std::string bufStr;
         static Vector2 offset;
         if (cam != nullptr)
             offset = {cam->target.x - WIDTH, cam->target.y - HEIGHT};

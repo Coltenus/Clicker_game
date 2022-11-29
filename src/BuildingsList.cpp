@@ -1,5 +1,5 @@
 //
-// Created by colte on 29.11.2022.
+// Created by Coltenus on 29.11.2022.
 //
 
 #include "BuildingsList.h"
@@ -7,7 +7,7 @@
 #include "SideBuilding.h"
 
 namespace g9 {
-    BuildingsList::BuildingsList(Camera2D* c, Money* m) : countOfElements(2), countOfAElements(1), cam(c), money(m) {
+    BuildingsList::BuildingsList(Camera2D* c, Money* m) : countOfElements(2), cam(c), money(m) {
         list = {};
         list.push_back(new MainBuilding({BUILD_POS_X, HEIGHT / 2 - 200}, MBUILD_SIZE, DARKBROWN, 1, cam, BUILD_SPEED, MBUILD_OFFSET));
         list.push_back(new SideBuilding({BUILD_POS_X, HEIGHT / 2 + 300}, SBUILD_SIZE, VIOLET, 0, 5000, cam, BUILD_SPEED, 2));

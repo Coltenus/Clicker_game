@@ -1,4 +1,3 @@
-#include <iostream>
 #include <raylib.h>
 #include <thread>
 #include "src/common.h"

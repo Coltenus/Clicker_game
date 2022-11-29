@@ -1,5 +1,5 @@
 //
-// Created by colte on 24.11.2022.
+// Created by Coltenus on 24.11.2022.
 //
 
 #ifndef GAME9_SIDEBUILDING_H
