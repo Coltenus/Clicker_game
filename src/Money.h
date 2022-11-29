@@ -9,9 +9,9 @@
 #include <string>
 
 #if DEBUG
-#define VALUE 2000000
+#define MONEY_VAL 2000000
 #else
-#define VALUE 0
+#define MONEY_VAL 0
 #endif
 
 namespace g9 {
@@ -23,7 +23,7 @@ namespace g9 {
         int height;
 
     public:
-        Money(Vector2 p, int h) : value(VALUE), pos(p), height(h) {}
+        Money(Vector2 p, int h) : value(MONEY_VAL), pos(p), height(h) {}
         void operator+=(unsigned long long v) {value += v;}
         void operator-=(unsigned long long v) {value -= v;}
         [[nodiscard]] unsigned long long GetValue() const {return value;}

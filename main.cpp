@@ -14,7 +14,6 @@ int g9::Building::buildingsCount = 0;
 int main() {
     setbuf(stdout, nullptr);
     bool isShouldExit = false;
-    bool newIteration = false;
     InitWindow(WIDTH, HEIGHT, "Moving buildings");
     SetTargetFPS(60);
     Image icon = LoadImage("res/icon.png");
@@ -67,24 +66,21 @@ int main() {
     existingThread = new std::thread([&](){
         while (!isShouldExit)
         {
-            if(newIteration)
+            if((buf = GetMouseWheelMove()) != 0)
             {
-                if((buf = GetMouseWheelMove()) != 0)
-                {
-                    if(cam.target.y >= HEIGHT)
-                        cam.target.y -= buf*100;
-                }
-                if(cam.target.y < HEIGHT)
-                    cam.target.y = HEIGHT;
-                butIter->Click(*money, *buildings[std::distance(buttons.begin(), butIter)]);
-                butN->Click(buttons, butIter);
-                butP->Click(buttons, butIter);
-                for(auto& el: buildings)
-                {
-                    el->check(*money);
-                }
-                newIteration = false;
+                if(cam.target.y >= HEIGHT)
+                    cam.target.y -= buf*100;
             }
+            if(cam.target.y < HEIGHT)
+                cam.target.y = HEIGHT;
+            butIter->Click(*money, *buildings[std::distance(buttons.begin(), butIter)]);
+            butN->Click(buttons, butIter);
+            butP->Click(buttons, butIter);
+            for(auto& el: buildings)
+            {
+                el->check(*money);
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(15));
         }
     });
     existingThread->detach();
@@ -127,7 +123,6 @@ int main() {
             }
             butIter = buttons.begin();
         }
-        newIteration = true;
         BeginDrawing();
         ClearBackground(GREEN);
         BeginMode2D(cam);

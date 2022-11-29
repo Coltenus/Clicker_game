@@ -38,8 +38,8 @@ namespace g9 {
         void check(Money& m) {
             static Vector2 mouse;
             mouse = GetMousePosition();
-            if(incVal > 0
-            && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)
+            if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)
+            && incVal > 0
             && mouse.x >= pos.x - cam->target.x + WIDTH && mouse.x <= pos.x + size.x - cam->target.x + WIDTH
             && mouse.y >= pos.y - cam->target.y + HEIGHT && mouse.y <= pos.y + size.y - cam->target.y + HEIGHT)
             {

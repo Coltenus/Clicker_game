@@ -17,3 +17,7 @@ add_subdirectory("libraries/Raylib/raylib")
 target_compile_options(raylib PUBLIC "-Wstringop-overflow=0")
 
 target_link_libraries(game9 raylib)
+
+if (CMAKE_BUILD_TYPE MATCHES Debug)
+    add_definitions(-DDEBUG=1)
+endif()
