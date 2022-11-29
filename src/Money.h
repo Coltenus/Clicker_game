@@ -8,6 +8,12 @@
 #include <raylib.h>
 #include <string>
 
+#if DEBUG
+#define VALUE 2000000
+#else
+#define VALUE 0
+#endif
+
 namespace g9 {
 
     class Money {
@@ -17,7 +23,7 @@ namespace g9 {
         int height;
 
     public:
-        Money(Vector2 p, int h) : value(2000000), pos(p), height(h) {}
+        Money(Vector2 p, int h) : value(VALUE), pos(p), height(h) {}
         void operator+=(unsigned long long v) {value += v;}
         void operator-=(unsigned long long v) {value -= v;}
         [[nodiscard]] unsigned long long GetValue() const {return value;}

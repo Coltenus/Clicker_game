@@ -150,11 +150,7 @@ int main() {
         delete money;
         money = nullptr;
     }
-//    for(auto& el: buildings)
-//        delete el;
-//    buildings.clear();
-    for(auto& el: existingThreads)
-        delete el;
-    existingThreads.clear();
+    buildings.erase(buildings.cbegin(), buildings.end());
+    existingThreads.erase(existingThreads.begin(), existingThreads.end());
     return 0;
 }

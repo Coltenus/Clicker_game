@@ -14,4 +14,6 @@ add_executable(game9 main.cpp src/Building.h src/Money.cpp src/Money.h src/MainB
 
 add_subdirectory("libraries/Raylib/raylib")
 
+target_compile_options(raylib PUBLIC "-Wstringop-overflow=0")
+
 target_link_libraries(game9 raylib)
