@@ -9,15 +9,15 @@
 #include "SideBuilding.h"
 #include "Button.h"
 
-namespace g9 {
+namespace g9::actions {
 
-    void actionMB(g9::Money&, g9::Building&, unsigned long long&, unsigned long long&);
-    void actionSB(g9::Money&, g9::Building&, unsigned long long&, unsigned long long&);
+    void actionMB(game_objects::Money&, game_objects::Building&, unsigned long long&, unsigned long long&);
+    void actionSB(game_objects::Money&, game_objects::Building&, unsigned long long&, unsigned long long&);
 
-    void buttonL(const std::vector<Button>&,
-            __gnu_cxx::__normal_iterator<g9::Button*, std::vector<g9::Button>>&);
-    void buttonR(const std::vector<Button>&,
-            __gnu_cxx::__normal_iterator<g9::Button*, std::vector<g9::Button>>&);
+    void buttonL(const std::vector<game_objects::Button>&,
+            __gnu_cxx::__normal_iterator<game_objects::Button*, std::vector<game_objects::Button>>&);
+    void buttonR(const std::vector<game_objects::Button>&,
+            __gnu_cxx::__normal_iterator<game_objects::Button*, std::vector<game_objects::Button>>&);
 
 }
 #endif //GAME9_ACTIONS_H

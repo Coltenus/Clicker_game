@@ -10,7 +10,7 @@
 #include "Money.h"
 #include "common.h"
 
-namespace g9 {
+namespace g9::game_objects {
 
     class Building {
     private:
@@ -24,7 +24,6 @@ namespace g9 {
         float angle = 0;
 
     public:
-        static int buildingsCount;
         Building(Vector2 p, Vector2 s, Color c, unsigned long long iv, Camera2D* cm, float sp, float mo)
         : pos(p), size(s), col(c), incVal(iv), cam(cm), speed(sp), moveOffset(mo) {}
         virtual ~Building() noexcept = default;

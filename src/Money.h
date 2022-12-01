@@ -14,22 +14,20 @@
 #define MONEY_VAL 0
 #endif
 
-namespace g9 {
+namespace g9::game_objects {
+        class Money {
+        private:
+            unsigned long long value;
+            Vector2 pos;
+            int height;
 
-    class Money {
-    private:
-        unsigned long long value;
-        Vector2 pos;
-        int height;
-
-    public:
-        Money(Vector2 p, int h) : value(MONEY_VAL), pos(p), height(h) {}
-        void operator+=(unsigned long long v) {value += v;}
-        void operator-=(unsigned long long v) {value -= v;}
-        [[nodiscard]] unsigned long long GetValue() const {return value;}
-        void Show() const;
-    };
-
-} // g9
+        public:
+            Money(Vector2 p, int h) : value(MONEY_VAL), pos(p), height(h) {}
+            void operator+=(unsigned long long v) {value += v;}
+            void operator-=(unsigned long long v) {value -= v;}
+            [[nodiscard]] unsigned long long GetValue() const {return value;}
+            void Show() const;
+        };
+    } // g9
 
 #endif //GAME9_MONEY_H

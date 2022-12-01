@@ -4,7 +4,7 @@
 
 #include "Button.h"
 
-namespace g9 {
+namespace g9::game_objects {
     Button::Button(Vector2 p, Vector2 s, const char * t, int h, Color c, Camera2D* cm) : pos(p),
     size(s), text(t), height(h), col(c), priceVal(0), startIV(0), cam(cm), action1(nullptr), action2(nullptr) {}
 

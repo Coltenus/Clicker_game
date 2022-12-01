@@ -7,20 +7,18 @@
 
 #include "Building.h"
 
-namespace g9 {
+namespace g9::game_objects {
+        class SideBuilding : public Building {
+        private:
+            unsigned int interval;
+            void OnClick(Money&) override;
 
-    class SideBuilding : public Building {
-    private:
-        unsigned int interval;
-        void OnClick(Money&) override;
-
-    public:
-        SideBuilding(Vector2, Vector2, Color, unsigned long long, unsigned int, Camera2D*, float, float);
-        ~SideBuilding() override;
-        void WhileExist(Money&) override;
-        void Show() override;
-    };
-
-} // g9
+        public:
+            SideBuilding(Vector2, Vector2, Color, unsigned long long, unsigned int, Camera2D*, float, float);
+            ~SideBuilding() override;
+            void WhileExist(Money&) override;
+            void Show() override;
+        };
+    } // g9
 
 #endif //GAME9_SIDEBUILDING_H

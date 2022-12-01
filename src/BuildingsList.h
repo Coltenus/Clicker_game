@@ -13,6 +13,8 @@
 #include "Actions.h"
 #include "Money.h"
 
+namespace g9 {
+
 #define BUTTON_POS {1275, 50}
 #define BUTTON_SIZE {300, 50}
 #define BUTTON_TEXT_HEIGHT 20
@@ -23,27 +25,30 @@
 #define MBUILD_OFFSET 2.5
 #define SBUILD_OFFSET 2
 
-namespace g9 {
-
     class BuildingsList
     {
     private:
-        std::vector<Building*> list;
-        std::vector<Button> buttons;
+        std::vector<game_objects::Building*> list;
+        std::vector<game_objects::Button> buttons;
         int countOfElements;
         Camera2D* cam;
-        Money* money;
+        game_objects::Money* money;
+        BuildingsList(Camera2D*, game_objects::Money*);
 
     public:
-        BuildingsList(Camera2D*, Money*);
+        BuildingsList(BuildingsList&) = delete;
+        void operator=(BuildingsList&) = delete;
         ~BuildingsList();
-        __gnu_cxx::__normal_iterator<g9::Button*, std::vector<g9::Button>> GetFirstButton();
-        Building* operator[](int);
+        static BuildingsList* object;
+        static BuildingsList* CreateList(Camera2D*, game_objects::Money*);
+        __gnu_cxx::__normal_iterator<game_objects::Button*, std::vector<game_objects::Button>> GetFirstButton();
+        game_objects::Building* operator[](int);
         void Move();
-        long long GetDistanceBetweenButtons(__gnu_cxx::__normal_iterator<g9::Button *, std::vector<g9::Button>>&);
-        std::vector<Button>& GetButtons();
+        long long GetDistanceBetweenButtons(__gnu_cxx::__normal_iterator<game_objects::Button *,
+                                            std::vector<game_objects::Button>>&);
+        std::vector<game_objects::Button>& GetButtons();
         void AddNewBuilding(std::vector<std::thread*>&,
-                __gnu_cxx::__normal_iterator<g9::Button *, std::vector<g9::Button>>&);
+                __gnu_cxx::__normal_iterator<game_objects::Button *, std::vector<game_objects::Button>>&);
         void Check();
         bool CheckZeroIV();
         void Show();
