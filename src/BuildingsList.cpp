@@ -37,7 +37,9 @@ namespace g9 {
     }
 
     Building *BuildingsList::operator[](int el) {
-        return list[el];
+        if(!list.empty())
+            return list[el];
+        else return nullptr;
     }
 
     void BuildingsList::Move() {
@@ -55,7 +57,8 @@ namespace g9 {
     }
 
     void BuildingsList::AddNewBuilding(std::vector<std::thread*>& eTs,
-                                       __gnu_cxx::__normal_iterator<Button *, std::vector<Button>>& bI) {
+                                       __gnu_cxx::__normal_iterator<Button *, std::vector<Button>>& bI,
+                                       unsigned char &cTh) {
         countOfElements++;
         if(countOfElements%5 == 0) {
             list.push_back(
@@ -82,9 +85,16 @@ namespace g9 {
             );
             buttons[countOfElements-1].SetAction(actions::actionSB);
             auto eT = new std::thread([&](){
-                list[countOfElements-1]->WhileExist(*money);
+                std::mutex m;
+                while(object != nullptr)
+                {
+                    if(object == nullptr)
+                        m.lock();
+                    list[countOfElements-1]->WhileExist(*money);
+                }
             });
             eT->detach();
+            cTh++;
             eTs.push_back(eT);
             eT = nullptr;
         }

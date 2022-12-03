@@ -19,5 +19,8 @@ namespace g9::actions {
     void buttonR(const std::vector<game_objects::Button>&,
             __gnu_cxx::__normal_iterator<game_objects::Button*, std::vector<game_objects::Button>>&);
 
+    void toMainMenu(utils::MenuSelections&);
+    void toGameplay(utils::MenuSelections&);
+
 }
 #endif //GAME9_ACTIONS_H

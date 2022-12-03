@@ -7,12 +7,7 @@
 
 #include <raylib.h>
 #include <string>
-
-#if DEBUG
-#define MONEY_VAL 2000000
-#else
-#define MONEY_VAL 0
-#endif
+#include "common.h"
 
 namespace g9::game_objects {
         class Money {
@@ -23,6 +18,7 @@ namespace g9::game_objects {
 
         public:
             Money(Vector2 p, int h) : value(MONEY_VAL), pos(p), height(h) {}
+            Money(Vector2 p, int h, unsigned long long val) : value(val), pos(p), height(h) {}
             void operator+=(unsigned long long v) {value += v;}
             void operator-=(unsigned long long v) {value -= v;}
             [[nodiscard]] unsigned long long GetValue() const {return value;}

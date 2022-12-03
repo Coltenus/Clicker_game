@@ -48,7 +48,8 @@ namespace g9 {
                                             std::vector<game_objects::Button>>&);
         std::vector<game_objects::Button>& GetButtons();
         void AddNewBuilding(std::vector<std::thread*>&,
-                __gnu_cxx::__normal_iterator<game_objects::Button *, std::vector<game_objects::Button>>&);
+                __gnu_cxx::__normal_iterator<game_objects::Button *, std::vector<game_objects::Button>>&,
+                unsigned char&);
         void Check();
         bool CheckZeroIV();
         void Show();

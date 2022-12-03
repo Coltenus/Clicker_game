@@ -11,13 +11,10 @@ namespace g9::game_objects {
         }
 
         void SideBuilding::WhileExist(Money &m) {
-            bool isActive = true;
-            while (isActive)
-            {
-                if(GetIncomeValue() != 0)
-                    isActive = false;
-            }
-            while(true)
+            bool isActive = false;
+            if(GetIncomeValue() != 0)
+                isActive = true;
+            if(isActive)
             {
                 m += GetIncomeValue();
                 std::this_thread::sleep_for(std::chrono::milliseconds(interval));

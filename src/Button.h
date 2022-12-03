@@ -24,6 +24,7 @@ namespace g9::game_objects {
             Camera2D* cam;
             void (*action1)(Money&, Building&, unsigned long long&, unsigned long long&);
             void (*action2)(const std::vector<Button>&, __gnu_cxx::__normal_iterator<Button*, std::vector<Button>>&);
+            void (*action3)(utils::MenuSelections&);
 
         public:
             Button(Vector2, Vector2, const char*, int, Color, Camera2D*);
@@ -35,8 +36,10 @@ namespace g9::game_objects {
             void SetAction(void (*)(Money&, Building&, unsigned long long&, unsigned long long&));
             void SetAction(void (*)(const std::vector<Button>&,
                                     __gnu_cxx::__normal_iterator<Button*, std::vector<Button>>&));
+            void SetAction(void (*)(utils::MenuSelections&));
             void Click(Money&, Building&);
             void Click(const std::vector<Button>&, __gnu_cxx::__normal_iterator<Button*, std::vector<Button>>&) const;
+            void Click(utils::MenuSelections&, bool&);
         };
     } // g9
 

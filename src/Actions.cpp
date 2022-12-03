@@ -49,4 +49,12 @@ namespace g9::actions {
             if(iter + 1 != vec.end())
                 iter += 1;
         }
+
+    void toMainMenu(utils::MenuSelections &ms) {
+        ms = utils::MAIN_MENU;
     }
+
+    void toGameplay(utils::MenuSelections &ms) {
+        ms = utils::GAMEPLAY;
+    }
+}

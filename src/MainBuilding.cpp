@@ -27,5 +27,7 @@ namespace g9::game_objects {
             }
         }
 
-        MainBuilding::~MainBuilding() {};
-    } // g9
+        MainBuilding::~MainBuilding() {}
+
+
+} // g9
