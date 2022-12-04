@@ -12,11 +12,9 @@ endif(DEBUG)
 
 add_executable(game9 main.cpp src/Building.h src/Money.cpp src/Money.h src/MainBuilding.cpp src/MainBuilding.h src/Button.cpp src/Button.h src/SideBuilding.cpp src/SideBuilding.h src/common.h res/icon.png src/Actions.h src/Actions.cpp src/BuildingsList.cpp src/BuildingsList.h src/Saves.cpp src/Saves.h src/Gameplay.cpp src/Gameplay.h src/MainMenu.cpp src/MainMenu.h src/MenuOption.h)
 
-add_subdirectory("libraries/Raylib/raylib")
-
-target_compile_options(raylib PUBLIC "-Wstringop-overflow=0")
-
-target_link_libraries(game9 raylib)
+find_package(raylib CONFIG REQUIRED)
+target_include_directories(game9 PRIVATE ${raylib_INCLUDE_DIRS})
+target_link_libraries(game9 PRIVATE ${raylib_LIBRARIES})
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
     add_definitions(-DDEBUG=1)
