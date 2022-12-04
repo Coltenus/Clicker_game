@@ -7,6 +7,7 @@
 
 #include <filesystem>
 #include <unistd.h>
+#include "MenuOption.h"
 
 namespace g9::utils {
 
@@ -25,6 +26,8 @@ namespace g9::utils {
                 bool GetStatus(size_t);
                 size_t GetLength();
             } gd;
+            //settings struct declaration
+            //pointer struct buffer declaration
             Saves();
 
         public:
@@ -34,6 +37,8 @@ namespace g9::utils {
             void operator=(Saves&) = delete;
             ~Saves();
             void AddSave(unsigned char, bool);
+            void PullSettings(MenuOption&);
+            void UpdateSettings(MenuOption&);
         };
 
 } // g9::utils

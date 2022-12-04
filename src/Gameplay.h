@@ -32,7 +32,6 @@ namespace g9 {
         Gameplay(Gameplay&) = delete;
         void operator=(Gameplay&) = delete;
 
-        void Start() override;
         void Update() override;
     };
 

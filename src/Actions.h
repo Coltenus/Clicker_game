@@ -21,6 +21,9 @@ namespace g9::actions {
 
     void toMainMenu(utils::MenuSelections&);
     void toGameplay(utils::MenuSelections&);
+    void toSettings(utils::MenuSelections&);
+    void toCredits(utils::MenuSelections&);
+    void Exit(utils::MenuSelections&);
 
 }
 #endif //GAME9_ACTIONS_H

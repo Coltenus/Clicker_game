@@ -12,7 +12,7 @@ namespace g9 {
 
     class MainMenu : public MenuOption {
     private:
-        g9::game_objects::Button *butStart;
+        g9::game_objects::Button *butStart, *butSettings, *butCredits, *butExit;
         explicit MainMenu(std::vector<std::thread*>*,
                           bool*,
                           utils::MenuSelections*);
@@ -26,7 +26,6 @@ namespace g9 {
         MainMenu(MainMenu&) = delete;
         void operator=(MainMenu&) = delete;
 
-        void Start() override;
         void Update() override;
     };
 

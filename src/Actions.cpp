@@ -57,4 +57,16 @@ namespace g9::actions {
     void toGameplay(utils::MenuSelections &ms) {
         ms = utils::GAMEPLAY;
     }
+
+    void toSettings(utils::MenuSelections &ms) {
+        ms = utils::SETTINGS;
+    }
+
+    void toCredits(utils::MenuSelections &ms) {
+        ms = utils::CREDITS;
+    }
+
+    void Exit(utils::MenuSelections &ms) {
+        ms = utils::EXIT;
+    }
 }

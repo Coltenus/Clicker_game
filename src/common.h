@@ -18,7 +18,8 @@ namespace g9::utils {
         GAMEPLAY = 1,
         MAIN_MENU,
         SETTINGS,
-        CREDITS
+        CREDITS,
+        EXIT
     };
 
 }

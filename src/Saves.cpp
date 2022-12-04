@@ -135,4 +135,36 @@ namespace g9::utils {
     void Saves::AddSave(unsigned char n, bool st) {
         gd.AddElement(n, st);
     }
+
+    void Saves::PullSettings(MenuOption &gp) {
+        int num = std::distance(gd.active.begin(), std::find(gd.active.begin(), gd.active.end(), true));
+        auto folderName = std::to_string(gd.name[num]);
+        FILE* file;
+        if(!std::filesystem::is_directory(folderName))
+        {
+            mkdir(folderName.c_str());
+            fopen_s(&file, (folderName+std::string("/settings")+folderName).c_str(), "wb");
+            //fill settings file
+            fclose(file);
+        }
+        //check if buffer is empty, if not continue
+        fopen_s(&file, (folderName+std::string("/settings")+folderName).c_str(), "rb");
+        //change this check with struct check
+        fseek(file, 0, SEEK_END);
+        if(ftell(file) == 0)
+        {
+            long long buf = 1;
+            fclose(file);
+            fopen_s(&file, (folderName+std::string("/settings")+folderName).c_str(), "wb");
+            //fill file with settings
+            fclose(file);
+            //fill buffer with new data
+        }
+        if(file != nullptr) fclose(file);
+        //fill gameplay class with collected data
+    }
+
+    void Saves::UpdateSettings(MenuOption &) {
+        //save settings logic, fill file with updated data
+    }
 } // g9::utils

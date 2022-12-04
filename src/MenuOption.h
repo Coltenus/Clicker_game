@@ -34,7 +34,6 @@ namespace g9 {
         virtual ~MenuOption() = default;
         MenuOption(MenuOption&) = delete;
         void operator=(MenuOption&) = delete;
-        virtual void Start() = 0;
         virtual void Update() = 0;
         bool GetStatus() const {return active;}
         void SetStatus(bool st) {active = st;}

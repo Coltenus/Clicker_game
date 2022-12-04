@@ -26,22 +26,23 @@ int main() {
     UnloadImage(icon);
     std::vector<std::thread*> existingThreads;
     g9::MenuOption* mo = g9::MainMenu::CreateMainMenu(&existingThreads, &isShouldExit, &menu_opt);
-    mo->Start();
     auto changeOption = [&]() {
         switch (menu_opt) {
             case g9::utils::MAIN_MENU:
                 delete mo;
                 mo = g9::MainMenu::CreateMainMenu(&existingThreads, &isShouldExit, &menu_opt);
-                mo->Start();
                 break;
             case g9::utils::GAMEPLAY:
                 delete mo;
                 mo = g9::Gameplay::CreateGameplay(&existingThreads, &isShouldExit, &menu_opt);
-                mo->Start();
+                sv->PullSettings(*mo);
                 break;
             case g9::utils::SETTINGS:
                 break;
             case g9::utils::CREDITS:
+                break;
+            case g9::utils::EXIT:
+                isShouldExit = true;
                 break;
         }
     };
