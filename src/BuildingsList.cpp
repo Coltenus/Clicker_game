@@ -58,7 +58,7 @@ namespace g9 {
 
     void BuildingsList::AddNewBuilding(std::vector<std::thread*>& eTs,
                                        __gnu_cxx::__normal_iterator<Button *, std::vector<Button>>& bI,
-                                       unsigned char &cTh) {
+                                       unsigned char &cTh, bool *active) {
         countOfElements++;
         if(countOfElements%5 == 0) {
             list.push_back(
@@ -84,15 +84,14 @@ namespace g9 {
                                pow(5, countOfElements))
             );
             buttons[countOfElements-1].SetAction(actions::actionSB);
-            auto eT = new std::thread([&](){
-                std::mutex m;
-                while(object != nullptr)
+            auto eT = new std::thread([this](bool* active, int pos){
+                while(active != nullptr && *active && object != nullptr)
                 {
-                    if(object == nullptr)
-                        m.lock();
-                    list[countOfElements-1]->WhileExist(*money);
+                    if(active == nullptr && !(*active))
+                        break;
+                    list[pos]->WhileExist(*money);
                 }
-            });
+            }, active, countOfElements-1);
             eT->detach();
             cTh++;
             eTs.push_back(eT);
@@ -126,5 +125,45 @@ namespace g9 {
             object = new BuildingsList(cm, m);
             return object;
         }
+    }
+
+    void BuildingsList::SetIncValue(std::vector<unsigned long long> &incVal) {
+        for(int i = 0; i<countOfElements-1; i++)
+            list[i]->SetIncValue(incVal[i]);
+    }
+
+    int BuildingsList::GetCountOfElements() {
+        return countOfElements;
+    }
+
+    int BuildingsList::GetCountOfActElements() {
+        if(!CheckZeroIV())
+            return countOfElements-1;
+        else return countOfElements;
+    }
+
+    std::vector<unsigned long long> BuildingsList::GetIncValues() {
+        std::vector<unsigned long long> result;
+
+        for(auto& el: list)
+            if(el->GetIncomeValue() != 0)
+                result.push_back(el->GetIncomeValue());
+
+        return result;
+    }
+
+    std::vector<unsigned long long> BuildingsList::GetUpdatePrices() {
+        std::vector<unsigned long long> result;
+
+        for(auto& el: buttons)
+            result.push_back(el.GetPrice());
+
+        return result;
+    }
+
+    void BuildingsList::SetUpdatePrices(std::vector<unsigned long long> &uP) {
+        for(int i = 0; i<countOfElements-1; i++)
+            buttons[i].SetPrice(uP[i], false);
+        buttons[countOfElements-1].SetPrice(uP[countOfElements-1], true);
     }
 } // g9

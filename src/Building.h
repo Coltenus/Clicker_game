@@ -32,6 +32,7 @@ namespace g9::game_objects {
         [[nodiscard]] Color GetColor() {return col;}
         void SetColor(Color c) {col = c;}
         [[nodiscard]] unsigned long long GetIncomeValue() const {return incVal;}
+        void SetIncValue(unsigned long long val) {incVal = val;}
         void IncreaseIncValByVal(unsigned long long val) {incVal += val;}
         void IncreaseIncVal(float val) {if(val >= 1) incVal *= val;}
         Camera2D* GetCamera() {return cam;}

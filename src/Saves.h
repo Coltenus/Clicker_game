@@ -26,8 +26,19 @@ namespace g9::utils {
                 bool GetStatus(size_t);
                 size_t GetLength();
             } gd;
-            //settings struct declaration
-            //pointer struct buffer declaration
+            struct SaveSettings {
+                SaveSettings();
+                unsigned long long moneyValue;
+                int countOfActBuildings;
+                std::vector<unsigned long long> buildingsValue;
+                std::vector<unsigned long long> updatePrices;
+                std::vector<unsigned char> GetData();
+                void SetData(std::vector<unsigned char>&);
+                unsigned long long GetMoneyValue();
+                int GetCountOfActBuildings();
+                const std::vector<unsigned long long>& GetBuildingsValue();
+                const std::vector<unsigned long long>& GetUpdatePrices();
+            } *ss;
             Saves();
 
         public:
@@ -37,8 +48,11 @@ namespace g9::utils {
             void operator=(Saves&) = delete;
             ~Saves();
             void AddSave(unsigned char, bool);
-            void PullSettings(MenuOption&);
-            void UpdateSettings(MenuOption&);
+            void PullSettings(MenuOption**,
+                              std::vector<std::thread*>* th,
+                              bool* ise,
+                              utils::MenuSelections* ms);
+            void UpdateSettings(MenuOption*);
         };
 
 } // g9::utils

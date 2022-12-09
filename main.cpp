@@ -16,7 +16,6 @@ g9::MainMenu* g9::MainMenu::object = nullptr;
 int main() {
     setbuf(stdout, nullptr);
     auto* sv = g9::utils::Saves::CreateSaves();
-    sv->AddSave(5, false);
     bool isShouldExit = false;
     g9::utils::MenuSelections menu_opt = g9::utils::MAIN_MENU;
     InitWindow(WIDTH, HEIGHT, "Moving buildings");
@@ -27,6 +26,8 @@ int main() {
     std::vector<std::thread*> existingThreads;
     g9::MenuOption* mo = g9::MainMenu::CreateMainMenu(&existingThreads, &isShouldExit, &menu_opt);
     auto changeOption = [&]() {
+        if(menu_opt != g9::utils::GAMEPLAY)
+            sv->UpdateSettings(mo);
         switch (menu_opt) {
             case g9::utils::MAIN_MENU:
                 delete mo;
@@ -34,8 +35,8 @@ int main() {
                 break;
             case g9::utils::GAMEPLAY:
                 delete mo;
-                mo = g9::Gameplay::CreateGameplay(&existingThreads, &isShouldExit, &menu_opt);
-                sv->PullSettings(*mo);
+                mo = nullptr;
+                sv->PullSettings(&mo, &existingThreads, &isShouldExit, &menu_opt);
                 break;
             case g9::utils::SETTINGS:
                 break;

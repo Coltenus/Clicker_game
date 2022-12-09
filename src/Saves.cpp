@@ -3,6 +3,7 @@
 //
 
 #include "Saves.h"
+#include "Gameplay.h"
 
 namespace g9::utils {
 
@@ -66,7 +67,7 @@ namespace g9::utils {
         active.erase(active.begin(), active.end());
     }
 
-    Saves::Saves() {
+    Saves::Saves() : ss(nullptr) {
         FILE* file;
         std::vector<unsigned char> buf;
         unsigned char* buf2 = nullptr;
@@ -115,19 +116,21 @@ namespace g9::utils {
         {
             FILE* file;
             std::vector<unsigned char> buf;
-            unsigned char* buf2;
             size_t len;
             fopen_s(&file, "gd", "wb");
             buf = gd.GetData();
-            buf2 = buf.data();
             len = buf.size();
             fseek(file, 0, SEEK_SET);
             fwrite(&len, sizeof(size_t), 1, file);
-            fwrite(&buf2[0], sizeof(unsigned char), len, file);
-            buf2 = nullptr;
+            fwrite(buf.data(), sizeof(buf[0]), buf.size(), file);
             buf.clear();
             gd.Clear();
             fclose(file);
+            if(ss != nullptr)
+            {
+                delete ss;
+                ss = nullptr;
+            }
             object = nullptr;
         }
     }
@@ -136,35 +139,160 @@ namespace g9::utils {
         gd.AddElement(n, st);
     }
 
-    void Saves::PullSettings(MenuOption &gp) {
+    void Saves::PullSettings(MenuOption **gp,
+                             std::vector<std::thread*>* th,
+                             bool* ise,
+                             utils::MenuSelections* ms) {
+        bool isNew = false;
+        bool isCorrect = true;
         int num = std::distance(gd.active.begin(), std::find(gd.active.begin(), gd.active.end(), true));
         auto folderName = std::to_string(gd.name[num]);
         FILE* file;
-        if(!std::filesystem::is_directory(folderName))
+        if(ss != nullptr) delete ss;
+        ss = new struct SaveSettings;
+        auto bufD = ss->GetData();
+        unsigned char* bufUCP = nullptr;
+        char* bufCP = new char[3];
+        std::string bufCP2 = "SET";
+        if(!std::filesystem::is_directory(std::string("saves/")))
+            mkdir(std::string("saves/").c_str());
+        if(!std::filesystem::is_directory(std::string("saves/")+folderName))
         {
-            mkdir(folderName.c_str());
-            fopen_s(&file, (folderName+std::string("/settings")+folderName).c_str(), "wb");
-            //fill settings file
+            mkdir((std::string("saves/")+folderName).c_str());
+            fopen_s(&file, (std::string("saves/")+folderName+std::string("/settings")+folderName).c_str(), "wb");
+            fwrite(bufCP2.c_str(), sizeof(char), 3, file);
+            fwrite(bufD.data(), sizeof(bufD[0]), bufD.size(), file);
             fclose(file);
+            isNew = true;
         }
-        //check if buffer is empty, if not continue
-        fopen_s(&file, (folderName+std::string("/settings")+folderName).c_str(), "rb");
-        //change this check with struct check
-        fseek(file, 0, SEEK_END);
-        if(ftell(file) == 0)
+        if(!isNew)
         {
-            long long buf = 1;
-            fclose(file);
-            fopen_s(&file, (folderName+std::string("/settings")+folderName).c_str(), "wb");
-            //fill file with settings
-            fclose(file);
-            //fill buffer with new data
+            fopen_s(&file, (std::string("saves/")+folderName+std::string("/settings")+folderName).c_str(), "rb");
+            fseek(file, 0, SEEK_END);
+            num = ftell(file);
+            if(num >= 23)
+            {
+                fseek(file, 0, SEEK_SET);
+                fread(&bufCP[0], sizeof(char), 3, file);
+                for(int i = 0; i<3; i++)
+                    if(bufCP[i] != bufCP2[i])
+                        isCorrect = false;
+                if(isCorrect)
+                {
+                    fseek(file, 3, SEEK_SET);
+                    bufUCP = new unsigned char[num-3];
+                    fread(&bufUCP[0], sizeof(unsigned char), num-3, file);
+                    bufD = {};
+                    for(int i = 0; i<num-3; i++)
+                        bufD.push_back(bufUCP[i]);
+                    ss->SetData(bufD);
+                }
+            }
         }
         if(file != nullptr) fclose(file);
-        //fill gameplay class with collected data
+        if(bufUCP != nullptr)
+        {
+            delete[] bufUCP;
+            bufUCP = nullptr;
+        }
+        delete[] bufCP;
+        bufCP = nullptr;
+        *gp = Gameplay::CreateGameplay(th, ise, ms, ss->moneyValue,
+                                      ss->countOfActBuildings, ss->buildingsValue, ss->updatePrices);
     }
 
-    void Saves::UpdateSettings(MenuOption &) {
-        //save settings logic, fill file with updated data
+    void Saves::UpdateSettings(MenuOption *gp) {
+        if(ss != nullptr)
+        {
+            int num = std::distance(gd.active.begin(), std::find(gd.active.begin(), gd.active.end(), true));
+            auto folderName = std::to_string(gd.name[num]);
+            FILE* file;
+            std::string bufCP2 = "SET";
+            ss->moneyValue = reinterpret_cast<Gameplay*>(gp)->GetMoney();
+            ss->countOfActBuildings = reinterpret_cast<Gameplay*>(gp)->GetActBuildings();
+            ss->buildingsValue = reinterpret_cast<Gameplay*>(gp)->GetIncValues();
+            ss->updatePrices = reinterpret_cast<Gameplay*>(gp)->GetUpdatePrices();
+            auto bufD = ss->GetData();
+            fopen_s(&file, (std::string("saves/")+folderName+std::string("/settings")+folderName).c_str(), "wb");
+            fwrite(bufCP2.c_str(), sizeof(char), 3, file);
+            fwrite(bufD.data(), sizeof(bufD[0]), bufD.size(), file);
+            fclose(file);
+            delete ss;
+            ss = nullptr;
+        }
+    }
+
+    std::vector<unsigned char> Saves::SaveSettings::GetData() {
+        std::vector<unsigned char> result;
+
+        for(int i = 0; i<8; i++)
+            result.push_back((moneyValue >> i*8) % 256);
+
+        for(int i = 0; i<4; i++)
+            result.push_back((countOfActBuildings >> i*8) % 256);
+
+        for(int i = 0; i<countOfActBuildings; i++)
+            for(int j = 0; j<8; j++)
+                result.push_back((buildingsValue[i] >> j*8) % 256);
+
+        for(int i = 0; i<countOfActBuildings+1; i++)
+            for(int j = 0; j<8; j++)
+                result.push_back((updatePrices[i] >> j*8) % 256);
+
+        return result;
+    }
+
+    Saves::SaveSettings::SaveSettings() {
+        moneyValue = MONEY_VAL;
+        countOfActBuildings = 1;
+        buildingsValue = {1};
+        updatePrices = {25, 40};
+    }
+
+    void Saves::SaveSettings::SetData(std::vector<unsigned char>& data) {
+        moneyValue = 0;
+        for(int i = 0; i<8; i++)
+        {
+            moneyValue += data[i] << i*8;
+        }
+        countOfActBuildings = 0;
+        for(int i = 0; i<4; i++)
+        {
+            countOfActBuildings += data[8 + i] << i*8;
+        }
+        buildingsValue = {};
+        for(int i = 0; i<countOfActBuildings; i++)
+        {
+            buildingsValue.push_back(0);
+            for(int j = 0; j<8; j++)
+            {
+                buildingsValue[i] += data[12 + i*8 + j] << j*8;
+            }
+        }
+        updatePrices = {};
+        for(int i = 0; i<countOfActBuildings+1; i++)
+        {
+            updatePrices.push_back(0);
+            for(int j = 0; j<8; j++)
+            {
+                updatePrices[i] += data[12 + 8*countOfActBuildings + i*8 + j] << j*8;
+            }
+        }
+    }
+
+    unsigned long long Saves::SaveSettings::GetMoneyValue() {
+        return moneyValue;
+    }
+
+    int Saves::SaveSettings::GetCountOfActBuildings() {
+        return countOfActBuildings;
+    }
+
+    const std::vector<unsigned long long> &Saves::SaveSettings::GetBuildingsValue() {
+        return buildingsValue;
+    }
+
+    const std::vector<unsigned long long> &Saves::SaveSettings::GetUpdatePrices() {
+        return updatePrices;
     }
 } // g9::utils

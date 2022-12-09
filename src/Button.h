@@ -16,7 +16,7 @@ namespace g9::game_objects {
         private:
             Vector2 pos;
             Vector2 size;
-            const char* text;
+            std::string text;
             int height;
             Color col;
             unsigned long long priceVal;
@@ -33,6 +33,8 @@ namespace g9::game_objects {
             Button(Vector2, Vector2, const char*, int, Color, unsigned long long, unsigned long long);
             ~Button();
             void Show();
+            void SetPrice(unsigned long long, bool);
+            unsigned long long GetPrice();
             void SetAction(void (*)(Money&, Building&, unsigned long long&, unsigned long long&));
             void SetAction(void (*)(const std::vector<Button>&,
                                     __gnu_cxx::__normal_iterator<Button*, std::vector<Button>>&));

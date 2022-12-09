@@ -31,10 +31,21 @@ namespace g9::game_objects {
     void Button::Show() {
         DrawRectangleV(pos, size, col);
         if(priceVal != 0)
-            DrawText(TextFormat("%s(%d)", text, priceVal),
+            DrawText(TextFormat("%s(%d)", text.c_str(), priceVal),
                      pos.x + size.x/16, pos.y + size.y/2 - height/2, height, BLACK);
         else
-            DrawText(text, pos.x + size.x/16, pos.y + size.y/2 - height/2, height, BLACK);
+            DrawText(text.c_str(), pos.x + size.x/16, pos.y + size.y/2 - height/2, height, BLACK);
+    }
+
+    void Button::SetPrice(unsigned long long int val, bool isLast) {
+        priceVal = val;
+        if(!isLast && text.starts_with("Buy")) {
+            text.replace(text.begin(), text.begin() + 3, "Upgrade");
+        }
+    }
+
+    unsigned long long Button::GetPrice() {
+        return priceVal;
     }
 
     void Button::Click(Money &m, Building &b) {
@@ -58,8 +69,7 @@ namespace g9::game_objects {
         }
         if(wasZero && b.GetIncomeValue() != 0)
         {
-            bufStr = text;
-            text = bufStr.replace(bufStr.begin(), bufStr.begin()+3, "Upgrade").c_str();
+            text.replace(text.begin(), text.begin()+3, "Upgrade");
         }
     }
 

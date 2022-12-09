@@ -15,8 +15,8 @@
 
 namespace g9 {
 
-#define BUTTON_POS {1275, 50}
-#define BUTTON_SIZE {300, 50}
+#define BUTTON_POS {1225, 50}
+#define BUTTON_SIZE {350, 50}
 #define BUTTON_TEXT_HEIGHT 20
 #define BUILD_POS_X (WIDTH / 2 - 50)
 #define MBUILD_SIZE {100, 100}
@@ -49,10 +49,16 @@ namespace g9 {
         std::vector<game_objects::Button>& GetButtons();
         void AddNewBuilding(std::vector<std::thread*>&,
                 __gnu_cxx::__normal_iterator<game_objects::Button *, std::vector<game_objects::Button>>&,
-                unsigned char&);
+                unsigned char&, bool*);
         void Check();
         bool CheckZeroIV();
         void Show();
+        void SetIncValue(std::vector<unsigned long long>&);
+        void SetUpdatePrices(std::vector<unsigned long long>&);
+        int GetCountOfElements();
+        int GetCountOfActElements();
+        std::vector<unsigned long long> GetIncValues();
+        std::vector<unsigned long long> GetUpdatePrices();
     };
 
 } // g9
