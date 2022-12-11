@@ -7,11 +7,15 @@
 #include "src/Saves.h"
 #include "src/Gameplay.h"
 #include "src/MainMenu.h"
+#include "src/SettingsMenu.h"
+#include "src/CreditsMenu.h"
 
 g9::BuildingsList* g9::BuildingsList::object = nullptr;
 g9::utils::Saves* g9::utils::Saves::object = nullptr;
 g9::Gameplay* g9::Gameplay::object = nullptr;
 g9::MainMenu* g9::MainMenu::object = nullptr;
+g9::SettingsMenu* g9::SettingsMenu::object = nullptr;
+g9::CreditsMenu* g9::CreditsMenu::object = nullptr;
 
 int main() {
     setbuf(stdout, nullptr);
@@ -39,8 +43,12 @@ int main() {
                 sv->PullSettings(&mo, &existingThreads, &isShouldExit, &menu_opt);
                 break;
             case g9::utils::SETTINGS:
+                delete mo;
+                mo = g9::SettingsMenu::CreateSettingsMenu(&existingThreads, &isShouldExit, &menu_opt);
                 break;
             case g9::utils::CREDITS:
+                delete mo;
+                mo = g9::CreditsMenu::CreateCreditsMenu(&existingThreads, &isShouldExit, &menu_opt);
                 break;
             case g9::utils::EXIT:
                 isShouldExit = true;

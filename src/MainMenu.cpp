@@ -16,25 +16,18 @@ namespace g9 {
                 butStart = new g9::game_objects::Button({WIDTH/2 - 100, HEIGHT * 0.20f}, {200, 100}, "Start", 35, GRAY);
                 butStart->SetAction(actions::toGameplay);
                 butSettings = new g9::game_objects::Button({WIDTH/2 - 100, HEIGHT * 0.35f}, {200, 100}, "Settings", 35, GRAY);
-                butSettings->SetAction(actions::toGameplay);
+                butSettings->SetAction(actions::toSettings);
                 butCredits = new g9::game_objects::Button({WIDTH/2 - 100, HEIGHT * 0.5f}, {200, 100}, "Credits", 35, GRAY);
-                butCredits->SetAction(actions::toGameplay);
+                butCredits->SetAction(actions::toCredits);
                 butExit = new g9::game_objects::Button({WIDTH/2 - 100, HEIGHT * 0.65f}, {200, 100}, "Exit", 35, GRAY);
                 butExit->SetAction(actions::Exit);
                 auto* existingThread = new std::thread([&](){
-                    std::mutex m;
-                    float buf;
-                    while (object != nullptr && active && !(*isShouldExit))
+                    bool isActive = active;
+                    while (isActive && !(*isShouldExit))
                     {
-                        if(object == nullptr)
-                            m.lock();
-                        if((buf = GetMouseWheelMove()) != 0)
-                        {
-                            if(cam.target.y >= HEIGHT)
-                                cam.target.y -= buf*100;
-                        }
-                        if(cam.target.y < HEIGHT)
-                            cam.target.y = HEIGHT;
+                        isActive = active;
+                        if(!isActive)
+                            break;
                         butStart->Click(*menuOpt, active);
                         butSettings->Click(*menuOpt, active);
                         butCredits->Click(*menuOpt, active);
