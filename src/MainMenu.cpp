@@ -1,5 +1,5 @@
 //
-// Created by colte on 02.12.2022.
+// Created by Coltenus on 02.12.2022.
 //
 
 #include "MainMenu.h"
@@ -13,13 +13,13 @@ namespace g9 {
             MenuOption(th, ise, ms)
             {
                 active = true;
-                butStart = new g9::game_objects::Button({WIDTH/2 - 100, HEIGHT * 0.20f}, {200, 100}, "Start", 35, GRAY);
+                butStart = new game_objects::Button({WIDTH/2 - 100, HEIGHT * 0.20f}, {200, 100}, "Start", 35, BTN_MENU);
                 butStart->SetAction(actions::toGameplay);
-                butSettings = new g9::game_objects::Button({WIDTH/2 - 100, HEIGHT * 0.35f}, {200, 100}, "Settings", 35, GRAY);
+                butSettings = new game_objects::Button({WIDTH/2 - 100, HEIGHT * 0.35f}, {200, 100}, "Settings", 35, BTN_MENU);
                 butSettings->SetAction(actions::toSettings);
-                butCredits = new g9::game_objects::Button({WIDTH/2 - 100, HEIGHT * 0.5f}, {200, 100}, "Credits", 35, GRAY);
+                butCredits = new game_objects::Button({WIDTH/2 - 100, HEIGHT * 0.5f}, {200, 100}, "Credits", 35, BTN_MENU);
                 butCredits->SetAction(actions::toCredits);
-                butExit = new g9::game_objects::Button({WIDTH/2 - 100, HEIGHT * 0.65f}, {200, 100}, "Exit", 35, GRAY);
+                butExit = new game_objects::Button({WIDTH/2 - 100, HEIGHT * 0.65f}, {200, 100}, "Exit", 35, BTN_MENU);
                 butExit->SetAction(actions::Exit);
                 auto* existingThread = new std::thread([&](){
                     bool isActive = active;
@@ -90,7 +90,7 @@ namespace g9 {
         if(active)
         {
             BeginDrawing();
-            ClearBackground(LIGHTGRAY);
+            ClearBackground(BG_MENU);
             butStart->Show();
             butSettings->Show();
             butCredits->Show();

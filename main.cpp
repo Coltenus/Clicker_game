@@ -16,6 +16,7 @@ g9::Gameplay* g9::Gameplay::object = nullptr;
 g9::MainMenu* g9::MainMenu::object = nullptr;
 g9::SettingsMenu* g9::SettingsMenu::object = nullptr;
 g9::CreditsMenu* g9::CreditsMenu::object = nullptr;
+bool g9::utils::IsDarkMode = true;
 
 int main() {
     setbuf(stdout, nullptr);
@@ -45,6 +46,7 @@ int main() {
             case g9::utils::SETTINGS:
                 delete mo;
                 mo = g9::SettingsMenu::CreateSettingsMenu(&existingThreads, &isShouldExit, &menu_opt);
+                dynamic_cast<g9::SettingsMenu*>(mo)->SetGlobalData(sv->GetGlobalData());
                 break;
             case g9::utils::CREDITS:
                 delete mo;

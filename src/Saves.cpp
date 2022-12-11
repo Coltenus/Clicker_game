@@ -45,19 +45,23 @@ namespace g9::utils {
         }
     }
 
-    unsigned char Saves::GlobalData::GetName(size_t pos) {
-        return name[pos];
+    short Saves::GlobalData::GetName(size_t pos) {
+        if(!name.empty())
+            return name[pos];
+        else return -1;
     }
 
     bool Saves::GlobalData::GetStatus(size_t pos) {
-        return active[pos];
+        if(!active.empty())
+            return active[pos];
+        else return false;
     }
 
     size_t Saves::GlobalData::GetLength() {
         return name.size();
     }
 
-    Saves::GlobalData::~GlobalData() {
+    Saves::GlobalData::~_GlobalData() {
         name.erase(name.begin(), name.end());
         active.erase(active.begin(), active.end());
     }
@@ -65,6 +69,27 @@ namespace g9::utils {
     void Saves::GlobalData::Clear() {
         name.erase(name.begin(), name.end());
         active.erase(active.begin(), active.end());
+    }
+
+    void Saves::GlobalData::SetActive(size_t pos) {
+        active[GetPosOfActive()] = false;
+        active[pos] = true;
+    }
+
+    size_t Saves::GlobalData::GetPosOfActive() {
+        return std::distance(active.begin(), std::find(active.begin(), active.end(), true));
+    }
+
+    short Saves::_GlobalData::FindElement(unsigned char el) {
+        auto buf = name.end();
+        if((buf = std::find(name.begin(), name.end(), el)) != name.end())
+        {
+            return std::distance(name.begin(), buf);
+        }
+        else
+        {
+            return -1;
+        }
     }
 
     Saves::Saves() : ss(nullptr) {
@@ -81,6 +106,7 @@ namespace g9::utils {
             buf2 = buf.data();
             len = buf.size();
             fseek(file, 0, SEEK_SET);
+            fwrite(&IsDarkMode, sizeof(IsDarkMode), 1, file);
             fwrite(&len, sizeof(size_t), 1, file);
             fwrite(&buf2[0], sizeof(unsigned char), len, file);
             buf2 = nullptr;
@@ -90,6 +116,7 @@ namespace g9::utils {
             fopen_s(&file, "gd", "rb");
         }
         fseek(file, 0, SEEK_SET);
+        fread(&IsDarkMode, sizeof(IsDarkMode), 1, file);
         fread(&len, sizeof(size_t), 1, file);
         buf2 = new unsigned char[len];
         fread(&buf2[0], sizeof(unsigned char), len, file);
@@ -121,6 +148,7 @@ namespace g9::utils {
             buf = gd.GetData();
             len = buf.size();
             fseek(file, 0, SEEK_SET);
+            fwrite(&IsDarkMode, sizeof(IsDarkMode), 1, file);
             fwrite(&len, sizeof(size_t), 1, file);
             fwrite(buf.data(), sizeof(buf[0]), buf.size(), file);
             buf.clear();
@@ -135,8 +163,8 @@ namespace g9::utils {
         }
     }
 
-    void Saves::AddSave(unsigned char n, bool st) {
-        gd.AddElement(n, st);
+    void Saves::AddSave(unsigned char n) {
+        gd.AddElement(n, false);
     }
 
     void Saves::PullSettings(MenuOption **gp,
@@ -220,6 +248,10 @@ namespace g9::utils {
             delete ss;
             ss = nullptr;
         }
+    }
+
+    Saves::GlobalData *Saves::GetGlobalData() {
+        return &gd;
     }
 
     std::vector<unsigned char> Saves::SaveSettings::GetData() {

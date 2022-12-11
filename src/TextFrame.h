@@ -1,5 +1,5 @@
 //
-// Created by colte on 11.12.2022.
+// Created by Coltenus on 11.12.2022.
 //
 
 #ifndef GAME9_TEXTFRAME_H
@@ -19,10 +19,13 @@ namespace g9::menu_elements {
             Vector2 pos, size;
             short fontHeight, maxLength, maxRowCount, fElement, rowCount;
             bool lineNeeded;
-
-        public:
             TextFrame(const char*, Vector2, Vector2, short);
             TextFrame(const char*, Vector2, Vector2, short, bool);
+
+        public:
+            static TextFrame* CreateTextFrame(const char*, Vector2, Vector2, short);
+            static TextFrame* CreateTextFrame(const char*, Vector2, Vector2, short, bool);
+            ~TextFrame() = default;
             void Show();
             void Update();
         };

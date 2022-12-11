@@ -38,7 +38,13 @@ add_executable(game9 main.cpp
         src/CreditsMenu.cpp
         src/CreditsMenu.h
         src/TextFrame.cpp
-        src/TextFrame.h)
+        src/TextFrame.h
+        src/SelectionForm.cpp
+        src/SelectionForm.h
+        src/Cmd.cpp
+        src/Cmd.h
+        src/RadioButton.cpp
+        src/RadioButton.h)
 
 find_package(raylib CONFIG REQUIRED)
 target_include_directories(game9 PRIVATE ${raylib_INCLUDE_DIRS})

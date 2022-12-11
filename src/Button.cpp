@@ -32,9 +32,9 @@ namespace g9::game_objects {
         DrawRectangleV(pos, size, col);
         if(priceVal != 0)
             DrawText(TextFormat("%s(%d)", text.c_str(), priceVal),
-                     pos.x + size.x/16, pos.y + size.y/2 - height/2, height, BLACK);
+                     pos.x + size.x/16, pos.y + size.y/2 - height/2, height, TEXT_COLOR);
         else
-            DrawText(text.c_str(), pos.x + size.x/16, pos.y + size.y/2 - height/2, height, BLACK);
+            DrawText(text.c_str(), pos.x + size.x/16, pos.y + size.y/2 - height/2, height, TEXT_COLOR);
     }
 
     void Button::SetPrice(unsigned long long int val, bool isLast) {

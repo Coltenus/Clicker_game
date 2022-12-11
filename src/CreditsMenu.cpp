@@ -1,5 +1,5 @@
 //
-// Created by colte on 11.12.2022.
+// Created by Coltenus on 11.12.2022.
 //
 
 #include "CreditsMenu.h"
@@ -13,13 +13,13 @@ namespace g9 {
             MenuOption(th, ise, ms)
     {
         active = true;
-        butBack = new g9::game_objects::Button({20, 100}, {100, 50}, "Back", 20, GRAY);
+        butBack = new game_objects::Button({20, 100}, {100, 50}, "Back", 20, BTN_MENU);
         butBack->SetAction(actions::toMainMenu);
-        creditsLabel = new menu_elements::TextFrame("This game was made by Coltenus.",
+        creditsLabel = menu_elements::TextFrame::CreateTextFrame("This game was made by Coltenus.",
                                                         {WIDTH - 520, HEIGHT - 40},
                                                         {700, 50},
                                                         30);
-        descriptionLabel = new menu_elements::TextFrame("This game was made by Coltenus.\n"
+        descriptionLabel = menu_elements::TextFrame::CreateTextFrame("This game was made by Coltenus.\n"
                                                     "\n"
                                                     "\n"
                                                     "\n"
@@ -99,11 +99,11 @@ namespace g9 {
         if(active)
         {
             BeginDrawing();
-            ClearBackground(LIGHTGRAY);
+            ClearBackground(BG_MENU);
             butBack->Show();
             creditsLabel->Show();
             descriptionLabel->Show();
-            DrawText("Credits", 100, 20, 40, BLACK);
+            DrawText("Credits", 100, 20, 40, TEXT_COLOR);
             EndDrawing();
         }
     }

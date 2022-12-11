@@ -1,5 +1,5 @@
 //
-// Created by colte on 02.12.2022.
+// Created by Coltenus on 02.12.2022.
 //
 
 #ifndef GAME9_MENUOPTION_H

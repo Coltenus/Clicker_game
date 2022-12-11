@@ -22,6 +22,13 @@ namespace g9::utils {
         EXIT
     };
 
+    extern bool IsDarkMode;
+
+#define BG_MENU ((g9::utils::IsDarkMode) ? DARKGRAY : LIGHTGRAY)
+#define BTN_MENU GRAY
+#define TEXT_COLOR ((g9::utils::IsDarkMode) ? WHITE : BLACK)
+#define BG_GP ((g9::utils::IsDarkMode) ? DARKBLUE : GREEN)
+
 }
 
 #endif //GAME9_COMMON_H

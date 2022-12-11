@@ -85,11 +85,12 @@ namespace g9 {
             );
             buttons[countOfElements-1].SetAction(actions::actionSB);
             auto eT = new std::thread([this](bool* active, int pos){
+                static bool* check = active;
                 while(active != nullptr && *active && object != nullptr)
                 {
-                    if(active == nullptr && !(*active))
+                    if(active != check && !(*active))
                         break;
-                    list[pos]->WhileExist(*money);
+                    else list[pos]->WhileExist(*money);
                 }
             }, active, countOfElements-1);
             eT->detach();

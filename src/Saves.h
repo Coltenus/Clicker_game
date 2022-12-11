@@ -12,9 +12,9 @@
 namespace g9::utils {
 
         class Saves {
-        private:
-            struct GlobalData {
-                ~GlobalData();
+        public:
+            typedef struct _GlobalData {
+                ~_GlobalData();
                 std::vector<unsigned char> name;
                 std::vector<bool> active;
                 std::vector<unsigned char> GetData();
@@ -22,10 +22,15 @@ namespace g9::utils {
                 void AddElement(unsigned char, bool);
                 void DelElement(size_t);
                 void Clear();
-                unsigned char GetName(size_t);
+                short GetName(size_t);
                 bool GetStatus(size_t);
                 size_t GetLength();
-            } gd;
+                void SetActive(size_t);
+                size_t GetPosOfActive();
+                short FindElement(unsigned char);
+            } GlobalData;
+        private:
+            GlobalData gd;
             struct SaveSettings {
                 SaveSettings();
                 unsigned long long moneyValue;
@@ -47,12 +52,13 @@ namespace g9::utils {
             Saves(Saves&) = delete;
             void operator=(Saves&) = delete;
             ~Saves();
-            void AddSave(unsigned char, bool);
+            void AddSave(unsigned char);
             void PullSettings(MenuOption**,
                               std::vector<std::thread*>* th,
                               bool* ise,
                               utils::MenuSelections* ms);
             void UpdateSettings(MenuOption*);
+            GlobalData* GetGlobalData();
         };
 
 } // g9::utils

@@ -1,5 +1,5 @@
 //
-// Created by colte on 11.12.2022.
+// Created by Coltenus on 11.12.2022.
 //
 
 #ifndef GAME9_SETTINGSMENU_H
@@ -7,12 +7,17 @@
 
 #include "MenuOption.h"
 #include "Button.h"
+#include "SelectionForm.h"
+#include "Saves.h"
+#include "RadioButton.h"
 
 namespace g9 {
 
     class SettingsMenu : public MenuOption {
     private:
         game_objects::Button *butBack;
+        menu_elements::SelectionForm *savingsSelect;
+        menu_elements::RadioButton *darkMode;
         explicit SettingsMenu(std::vector<std::thread*>*,
         bool*,
         utils::MenuSelections*);
@@ -27,6 +32,7 @@ namespace g9 {
         void operator=(SettingsMenu&) = delete;
 
         void Update() override;
+        void SetGlobalData(utils::Saves::GlobalData*);
     };
 
 } // g9

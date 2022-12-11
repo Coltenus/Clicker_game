@@ -1,5 +1,5 @@
 //
-// Created by colte on 02.12.2022.
+// Created by Coltenus on 02.12.2022.
 //
 
 #include "Gameplay.h"
@@ -17,11 +17,11 @@ namespace g9 {
             bl = BuildingsList::CreateList(&cam, money);
             butIter = new __gnu_cxx::__normal_iterator<game_objects::Button *, std::vector<game_objects::Button>>;
             *butIter = bl->GetFirstButton();
-            butP = new g9::game_objects::Button({1275, 120}, {50, 50}, "<=", 20, BLUE);
-            butP->SetAction(g9::actions::buttonL);
-            butN = new g9::game_objects::Button({1475, 120}, {50, 50}, "=>", 20, BLUE);
-            butN->SetAction(g9::actions::buttonR);
-            butBack = new g9::game_objects::Button({20, 100}, {100, 50}, "Back", 20, GRAY);
+            butP = new game_objects::Button({1275, 120}, {50, 50}, "<=", 20, BLUE);
+            butP->SetAction(actions::buttonL);
+            butN = new game_objects::Button({1475, 120}, {50, 50}, "=>", 20, BLUE);
+            butN->SetAction(actions::buttonR);
+            butBack = new game_objects::Button({20, 100}, {100, 50}, "Back", 20, BTN_MENU);
             butBack->SetAction(actions::toMainMenu);
             auto* existingThread = new std::thread([&](){
                 bool isActive = active;
@@ -101,7 +101,7 @@ namespace g9 {
                            butP->SetAction(g9::actions::buttonL);
                            butN = new g9::game_objects::Button({1475, 120}, {50, 50}, "=>", 20, BLUE);
                            butN->SetAction(g9::actions::buttonR);
-                           butBack = new g9::game_objects::Button({20, 100}, {100, 50}, "Back", 20, GRAY);
+                           butBack = new g9::game_objects::Button({20, 100}, {100, 50}, "Back", 20, BTN_MENU);
                            butBack->SetAction(actions::toMainMenu);
                            for(int i = bl->GetCountOfActElements(); i<cAB; i++)
                                bl->AddNewBuilding(*existingThreads, *butIter, curThreads, &active);
@@ -244,7 +244,7 @@ namespace g9 {
                 bl->AddNewBuilding(*existingThreads, *butIter, curThreads, &active);
             }
             BeginDrawing();
-            ClearBackground(GREEN);
+            ClearBackground(BG_GP);
             BeginMode2D(cam);
             bl->Show();
             EndMode2D();

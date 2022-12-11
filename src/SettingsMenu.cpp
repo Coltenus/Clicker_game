@@ -1,5 +1,5 @@
 //
-// Created by colte on 11.12.2022.
+// Created by Coltenus on 11.12.2022.
 //
 
 #include "SettingsMenu.h"
@@ -13,16 +13,27 @@ namespace g9 {
             MenuOption(th, ise, ms)
             {
                 active = true;
-                butBack = new g9::game_objects::Button({20, 100}, {100, 50}, "Back", 20, GRAY);
+                butBack = new game_objects::Button({20, 100}, {100, 50}, "Back", 20, BTN_MENU);
                 butBack->SetAction(actions::toMainMenu);
+                savingsSelect = menu_elements::SelectionForm::CreateSelectionForm(
+                        {WIDTH/2 - 200, HEIGHT/2 - 200}, {400, 150}, 20);
+                darkMode = new menu_elements::RadioButton({WIDTH/2 - 100, HEIGHT/2 + 50}, {200, 50}, 20);
+                std::map<const char*, bool> bufMap{{"Light", false}, {"Dark", true}};
+                darkMode->SetMap(bufMap);
                 auto* existingThread = new std::thread([&](){
                     bool isActive = active;
+                    bool isLeftMouseClicked = false;
                     while (isActive && !(*isShouldExit))
                     {
                         isActive = active;
                         if(!isActive)
                             break;
+                        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+                            isLeftMouseClicked = true;
+                        else isLeftMouseClicked = false;
                         butBack->Click(*menuOpt, active);
+                        savingsSelect->Update(isLeftMouseClicked);
+                        darkMode->Update(isLeftMouseClicked);
                         std::this_thread::sleep_for(std::chrono::milliseconds(15));
                     }
                 });
@@ -56,6 +67,16 @@ namespace g9 {
                 delete butBack;
                 butBack = nullptr;
             }
+            if(savingsSelect != nullptr)
+            {
+                delete savingsSelect;
+                savingsSelect = nullptr;
+            }
+            if(darkMode != nullptr)
+            {
+                delete darkMode;
+                darkMode = nullptr;
+            }
             isShouldExit = nullptr;
             existingThreads = nullptr;
             object = nullptr;
@@ -66,10 +87,18 @@ namespace g9 {
         if(active)
         {
             BeginDrawing();
-            ClearBackground(LIGHTGRAY);
+            ClearBackground(BG_MENU);
             butBack->Show();
-            DrawText("Settings", 100, 20, 40, BLACK);
+            DrawText("Choose saving", WIDTH/2 - 100, HEIGHT/2 - 250, 30, TEXT_COLOR);
+            savingsSelect->Show();
+            DrawText("Color mode", WIDTH/2 - 80, HEIGHT/2, 30, TEXT_COLOR);
+            darkMode->Show();
+            DrawText("Settings", 100, 20, 40, TEXT_COLOR);
             EndDrawing();
         }
+    }
+
+    void SettingsMenu::SetGlobalData(utils::Saves::GlobalData *gd) {
+        savingsSelect->SetGlobalData(gd);
     }
 } // g9

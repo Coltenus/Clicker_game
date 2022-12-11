@@ -1,5 +1,5 @@
 //
-// Created by colte on 11.12.2022.
+// Created by Coltenus on 11.12.2022.
 //
 
 #ifndef GAME9_CREDITSMENU_H
