@@ -12,7 +12,7 @@ namespace g9 {
 
     class SettingsMenu : public MenuOption {
     private:
-        g9::game_objects::Button *butBack;
+        game_objects::Button *butBack;
         explicit SettingsMenu(std::vector<std::thread*>*,
         bool*,
         utils::MenuSelections*);

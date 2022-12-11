@@ -7,12 +7,14 @@
 
 #include "MenuOption.h"
 #include "Button.h"
+#include "TextFrame.h"
 
 namespace g9 {
 
     class CreditsMenu : public MenuOption {
     private:
-        g9::game_objects::Button *butBack;
+        game_objects::Button *butBack;
+        menu_elements::TextFrame *creditsLabel, *descriptionLabel;
         explicit CreditsMenu(std::vector<std::thread*>*,
         bool*,
         utils::MenuSelections*);

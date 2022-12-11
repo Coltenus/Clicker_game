@@ -12,7 +12,7 @@ namespace g9 {
 
     class MainMenu : public MenuOption {
     private:
-        g9::game_objects::Button *butStart, *butSettings, *butCredits, *butExit;
+        game_objects::Button *butStart, *butSettings, *butCredits, *butExit;
         explicit MainMenu(std::vector<std::thread*>*,
                           bool*,
                           utils::MenuSelections*);

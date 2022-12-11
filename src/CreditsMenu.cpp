@@ -15,6 +15,27 @@ namespace g9 {
         active = true;
         butBack = new g9::game_objects::Button({20, 100}, {100, 50}, "Back", 20, GRAY);
         butBack->SetAction(actions::toMainMenu);
+        creditsLabel = new menu_elements::TextFrame("This game was made by Coltenus.",
+                                                        {WIDTH - 520, HEIGHT - 40},
+                                                        {700, 50},
+                                                        30);
+        descriptionLabel = new menu_elements::TextFrame("This game was made by Coltenus.\n"
+                                                    "\n"
+                                                    "\n"
+                                                    "\n"
+                                                    "\n"
+                                                    "\n"
+                                                    "\n"
+                                                    "\n"
+                                                    "\n"
+                                                    "\n"
+                                                    "\n"
+                                                    "\n"
+                                                    "Easter egg",
+                                                    {WIDTH/2 - 300, HEIGHT/2 - 300},
+                                                    {600, 400},
+                                                    30,
+                                                    true);
         auto* existingThread = new std::thread([&](){
             bool isActive = active;
             while (isActive && !(*isShouldExit))
@@ -23,6 +44,8 @@ namespace g9 {
                 if(!isActive)
                     break;
                 butBack->Click(*menuOpt, active);
+                creditsLabel->Update();
+                descriptionLabel->Update();
                 std::this_thread::sleep_for(std::chrono::milliseconds(15));
             }
         });
@@ -56,6 +79,16 @@ namespace g9 {
                 delete butBack;
                 butBack = nullptr;
             }
+            if(creditsLabel != nullptr)
+            {
+                delete creditsLabel;
+                creditsLabel = nullptr;
+            }
+            if(descriptionLabel != nullptr)
+            {
+                delete descriptionLabel;
+                descriptionLabel = nullptr;
+            }
             isShouldExit = nullptr;
             existingThreads = nullptr;
             object = nullptr;
@@ -68,6 +101,8 @@ namespace g9 {
             BeginDrawing();
             ClearBackground(LIGHTGRAY);
             butBack->Show();
+            creditsLabel->Show();
+            descriptionLabel->Show();
             DrawText("Credits", 100, 20, 40, BLACK);
             EndDrawing();
         }

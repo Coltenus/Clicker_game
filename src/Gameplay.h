@@ -14,11 +14,11 @@ namespace g9 {
 
     class Gameplay : public MenuOption {
     private:
-        g9::game_objects::Money* money;
-        g9::BuildingsList* bl;
+        game_objects::Money* money;
+        BuildingsList* bl;
         __gnu_cxx::__normal_iterator<game_objects::Button *, std::vector<game_objects::Button>>* butIter;
-        g9::game_objects::Button *butP, *butN;
-        g9::game_objects::Button *butBack;
+        game_objects::Button *butP, *butN;
+        game_objects::Button *butBack;
         explicit Gameplay(std::vector<std::thread*>*,
                           bool*,
                           utils::MenuSelections*);
