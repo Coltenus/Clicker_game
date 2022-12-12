@@ -4,7 +4,7 @@
 
 #include <cmath>
 #include "RadioButton.h"
-#include "common.h"
+#include "../utils/common.h"
 
 namespace g9::menu_elements {
     RadioButton::RadioButton(Vector2 p, Vector2 s, short fontH)

@@ -6,10 +6,9 @@
 #define GAME9_SETTINGSMENU_H
 
 #include "MenuOption.h"
-#include "Button.h"
-#include "SelectionForm.h"
-#include "Saves.h"
-#include "RadioButton.h"
+#include "../game_objects/Button.h"
+#include "../menu_elements.h"
+#include "../utils/Saves.h"
 
 namespace g9 {
 

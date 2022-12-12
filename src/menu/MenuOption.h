@@ -8,7 +8,7 @@
 #include <raylib.h>
 #include <thread>
 #include <vector>
-#include "common.h"
+#include "../utils/common.h"
 
 namespace g9 {
 

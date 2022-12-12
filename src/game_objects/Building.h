@@ -8,7 +8,7 @@
 #include <raylib.h>
 #include <cmath>
 #include "Money.h"
-#include "common.h"
+#include "../utils/common.h"
 
 namespace g9::game_objects {
 

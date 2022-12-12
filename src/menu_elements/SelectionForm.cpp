@@ -4,7 +4,7 @@
 
 #include "SelectionForm.h"
 #include <thread>
-#include "Cmd.h"
+#include "../utils/Cmd.h"
 
 namespace g9::menu_elements {
     SelectionForm::SelectionForm(Vector2 p, Vector2 s, short fontH)

@@ -10,7 +10,7 @@
 #include <thread>
 #include "Building.h"
 #include "Button.h"
-#include "Actions.h"
+#include "../actions.h"
 #include "Money.h"
 
 namespace g9 {

@@ -9,7 +9,7 @@
 #include <vector>
 #include "Money.h"
 #include "Building.h"
-#include "common.h"
+#include "../utils/common.h"
 
 namespace g9::game_objects {
         class Button {

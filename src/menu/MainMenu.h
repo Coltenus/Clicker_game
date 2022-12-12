@@ -6,7 +6,7 @@
 #define GAME9_MAINMENU_H
 
 #include "MenuOption.h"
-#include "Button.h"
+#include "../game_objects/Button.h"
 
 namespace g9 {
 

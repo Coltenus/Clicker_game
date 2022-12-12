@@ -3,7 +3,7 @@
 //
 
 #include "CreditsMenu.h"
-#include "Actions.h"
+#include "../actions/Actions.h"
 
 namespace g9 {
     CreditsMenu::CreditsMenu(std::vector<std::thread*>* th,

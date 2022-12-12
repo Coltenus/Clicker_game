@@ -1,14 +1,8 @@
 #include <raylib.h>
 #include <thread>
-#include "src/common.h"
-#include "src/Money.h"
-#include "src/Button.h"
-#include "src/BuildingsList.h"
-#include "src/Saves.h"
-#include "src/Gameplay.h"
-#include "src/MainMenu.h"
-#include "src/SettingsMenu.h"
-#include "src/CreditsMenu.h"
+#include "src/utils.h"
+#include "src/game_objects.h"
+#include "src/menu.h"
 
 g9::BuildingsList* g9::BuildingsList::object = nullptr;
 g9::utils::Saves* g9::utils::Saves::object = nullptr;

@@ -5,9 +5,7 @@
 #ifndef GAME9_GAMEPLAY_H
 #define GAME9_GAMEPLAY_H
 
-#include "Money.h"
-#include "BuildingsList.h"
-#include "Button.h"
+#include "../game_objects.h"
 #include "MenuOption.h"
 
 namespace g9 {

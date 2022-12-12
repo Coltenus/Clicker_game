@@ -5,9 +5,7 @@
 #ifndef GAME9_ACTIONS_H
 #define GAME9_ACTIONS_H
 
-#include "MainBuilding.h"
-#include "SideBuilding.h"
-#include "Button.h"
+#include "../game_objects.h"
 
 namespace g9::actions {
 

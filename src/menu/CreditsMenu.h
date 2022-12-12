@@ -6,8 +6,8 @@
 #define GAME9_CREDITSMENU_H
 
 #include "MenuOption.h"
-#include "Button.h"
-#include "TextFrame.h"
+#include "../game_objects/Button.h"
+#include "../menu_elements/TextFrame.h"
 
 namespace g9 {
 

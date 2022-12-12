@@ -7,7 +7,7 @@
 
 #include <raylib.h>
 #include <string>
-#include "common.h"
+#include "../utils/common.h"
 
 namespace g9::game_objects {
         class Money {

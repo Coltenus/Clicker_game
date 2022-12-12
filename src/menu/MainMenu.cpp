@@ -3,7 +3,7 @@
 //
 
 #include "MainMenu.h"
-#include "Actions.h"
+#include "../actions/Actions.h"
 
 namespace g9 {
     MainMenu::MainMenu(std::vector<std::thread*>* th,
