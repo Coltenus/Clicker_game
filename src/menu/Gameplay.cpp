@@ -3,7 +3,6 @@
 //
 
 #include "Gameplay.h"
-#include <mutex>
 
 namespace g9 {
     Gameplay::Gameplay(std::vector<std::thread*>* th,
