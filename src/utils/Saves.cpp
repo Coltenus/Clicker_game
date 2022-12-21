@@ -4,6 +4,7 @@
 
 #include "Saves.h"
 #include "../menu/Gameplay.h"
+#include <algorithm>
 
 namespace g9::utils {
 
