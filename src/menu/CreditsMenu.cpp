@@ -19,9 +19,8 @@ namespace g9 {
                                                         {WIDTH - 520, HEIGHT - 40},
                                                         {700, 50},
                                                         30);
-        descriptionLabel = menu_elements::TextFrame::CreateTextFrame("This game was made by Coltenus.\n"
-                                                    "\n"
-                                                    "\n"
+        descriptionLabel = menu_elements::TextFrame::CreateTextFrame("Simple clicker game with saving system, "
+                                                    "different menu pages and endless gameplay.\n"
                                                     "\n"
                                                     "\n"
                                                     "\n"
