@@ -1,6 +1,6 @@
 # Coltenus's clicker game
 
-##Simple clicker game with saving system, different menu pages and endless gameplay.
+## Simple clicker game with saving system, different menu pages and endless gameplay.
 
 ![image](https://user-images.githubusercontent.com/74499144/209333157-b1f3505b-f8cc-4dfb-a433-21b8d8b2f349.png)
 
